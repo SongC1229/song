@@ -1,10 +1,8 @@
 ## 1、诗词卡片
-#### 唐诗
-![唐诗](https://github.com/Sningi/song/showImages/tpoem.jpg)
-#### 宋词
-![宋词](https://github.com/Sningi/song/showImages/partcile.png)
-#### 诗经
-![诗经](https://github.com/Sningi/song/showImages/psearch.png)
+
+|唐诗|宋词|诗经|
+|:---|:---|:---|
+|![唐诗](https://github.com/Sningi/song/blob/master/showImages/tpoem.jpg)|![宋词](https://github.com/Sningi/song/blob/master/showImages/spoem.jpg)|![诗经](https://github.com/Sningi/song/blob/master/showImages/song.jpg)|
 
 ## 2、检索
 #### 诗经
