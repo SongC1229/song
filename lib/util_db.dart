@@ -35,7 +35,7 @@ Future updateconf() async{
   new File(docDir+"/conf.json").writeAsString(jsonString);
 }
 
-void initconf( var refresh) async{
+void initconf( var refreshApp) async{
   if(docDir==null){
     docDir = (await getApplicationDocumentsDirectory()).path;
   }
@@ -53,7 +53,7 @@ void initconf( var refresh) async{
         GlobalConfig.motto=confjson["motto"];
         GlobalConfig.name=confjson["name"];
         GlobalConfig.dark?GlobalConfig.appBackgroundColor=GlobalConfig.night:GlobalConfig.appBackgroundColor=GlobalConfig.light;
-        refresh();
+        refreshApp();
       });
     });
   }
@@ -67,7 +67,7 @@ void initconf( var refresh) async{
       GlobalConfig.motto=confjson["motto"];
       GlobalConfig.name=confjson["name"];
       GlobalConfig.dark?GlobalConfig.appBackgroundColor=GlobalConfig.night:GlobalConfig.appBackgroundColor=GlobalConfig.light;
-      refresh();
+      refreshApp();
     });
   }
 }
@@ -86,7 +86,6 @@ void initPoem() async{
       msg: "拷贝数据中...\n下拉以刷新",
       toastLength: Toast.LENGTH_LONG,
       gravity: ToastGravity.CENTER,
-      textcolor: '#000000'
     );
 //    print("Creating new copy from asset");
     ByteData data = await rootBundle.load("asset/shi.db");
@@ -115,12 +114,12 @@ void initPoem() async{
 Future<Map> getData(int cate,int id) async{
 //  print(GlobalConfig.font.toString());
   if(shidb==null){
-    Fluttertoast.showToast(
-        msg: "数据库为空，获取失败",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        textcolor: '#000000'
-    );
+//    Fluttertoast.showToast(
+//        msg: "数据库为空，获取失败",
+//        toastLength: Toast.LENGTH_SHORT,
+//        gravity: ToastGravity.CENTER,
+//        textcolor: '#000000'
+//    );
     return null;
   }
   String sql;
@@ -150,7 +149,6 @@ Future<List>  dbSearch(String key,int catepoem,int b) async{
         msg: "数据库为空,查询失败",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
-        textcolor: '#000000'
     );
     return null;
   }
@@ -163,18 +161,30 @@ Future<List>  dbSearch(String key,int catepoem,int b) async{
   return data;
 }
 
-Future dbUpdate(int id,int love,int cate) async{
+Future dbUpdateLove(int id,int love,int cate) async{
   if(shidb==null){
     Fluttertoast.showToast(
         msg: "数据库为空,更改失败",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
-        textcolor: '#000000'
     );
     return null;
   }
-  String sql="update "+theme[cate]+" set love=$love where id=$id";
-  await shidb.rawUpdate(sql);
+  String sql="update "+theme[cate]+" set love= ? where id= ?";
+  await shidb.rawUpdate(sql,[love,id]);
+}
+
+Future dbUpdatePoem(int id,String title,String author,String content,int cate) async{
+  if(shidb==null){
+    Fluttertoast.showToast(
+        msg: "数据库为空,更改失败",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+    );
+    return null;
+  }
+  String sql="update "+theme[cate]+" set title= ?, author= ?,content= ? where id= ?";
+  await shidb.rawUpdate(sql,[title,author,content,id]);
 }
 
 Future dbDelete(int id,int cate) async{
@@ -183,7 +193,6 @@ Future dbDelete(int id,int cate) async{
         msg: "数据库为空,删除失败",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
-        textcolor: '#000000'
     );
     return null;
   }
@@ -194,7 +203,6 @@ Future dbDelete(int id,int cate) async{
         msg: "删除失败",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
-        textcolor: '#000000'
     );
   }
 }
@@ -207,7 +215,6 @@ Future<List>  dbDelectLove(int pomecate) async{
         msg: "数据库为空，查询失败",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
-        textcolor: '#000000'
     );
     return null;
   }

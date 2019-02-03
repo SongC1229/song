@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'util_db.dart';
 import 'global_config.dart';
 import 'dialog_remove.dart';
+import 'dialog_update.dart';
 class SearchPage extends StatefulWidget {
   SearchPage({Key key,
     this.controller,
@@ -63,6 +64,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
           (notification.metrics.extentInside - _barHeight)+105;
       _fadeBar();
     });
+    return true;
   }
 
   @override
@@ -119,7 +121,6 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
           msg: "查询到"+result.length.toString()+"条",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          textcolor: '#000000'
       );
       setState(() {
           data =result;
@@ -167,8 +168,12 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                   decoration: new InputDecoration(
                       hintText: " 按条件查询|关键字以空格隔开",
                       border: InputBorder.none,
-                    )
-
+                    ),
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: GlobalConfig.font
+                  ),
                 ),
                 decoration: BoxDecoration(
                   border: Border.all(width: 1.0, color: Colors.white),
@@ -373,7 +378,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                         onPressed: () {
                           var temp;
                           eachdata["love"]==0?temp=1:temp=0;
-                          dbUpdate(eachdata["id"],temp,value1).whenComplete((){
+                          dbUpdateLove(eachdata["id"],temp,value1).whenComplete((){
                             _search();
                           });
                         },
@@ -391,27 +396,43 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                         onPressed: (){
                           stopspeech();
                         },
-                        tooltip: '朗读',
+                        tooltip: '停止',
                       ),
                     new IconButton(
                         icon: Icon(Icons.delete_outline),
                         onPressed: (){
-                          showAlertDialog(context,eachdata["id"],eachdata["title"],eachdata["author"]);
+                          showDeleteDialog(context,eachdata["id"],eachdata["title"],eachdata["author"]);
                         },
                         tooltip: '删除',
                       ),
+                    new IconButton(
+                      icon: Icon(Icons.create),
+                      onPressed: (){
+                        showUpdateDialog(context,eachdata["id"],eachdata["title"],eachdata["author"],eachdata["content"]);
+                      },
+                      tooltip: '修正',
+                    ),
                   ],),
               ],
           ),
       );
   }
 
-  void showAlertDialog(BuildContext context,int id,String poemtitle,String author) {
+  void showDeleteDialog(BuildContext context,int id,String poemtitle,String author) {
     showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
           return Remove(refreshfather: _search,id: id,poemtitle: poemtitle,author: author,cate: value1,dbremove: true,);
+        });
+  }
+
+  void showUpdateDialog(BuildContext context,int id,String poemtitle,String author,String content) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return Update(refreshfather: _search,id: id,poemtitle: poemtitle,author: author,content: content,cate: value1);
         });
   }
 }

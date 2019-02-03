@@ -85,13 +85,20 @@ class Motto extends StatelessWidget{
                           ),
                           TextField(
                               onChanged: (String str){//输入监听
-                                GlobalConfig.nametemp=str;
+                                GlobalConfig.temp1=str;
                               },
                               keyboardType: TextInputType.text,//设置输入框文本类型
                               textAlign: TextAlign.left,//设置内容显示位置是否居中等
                               decoration: new InputDecoration(
                                 hintText: GlobalConfig.name,
-                              )
+                              ),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: GlobalConfig.font,
+
+                            ),
                           ),
                           Padding(padding: EdgeInsets.only(top: 5.0),),
                           Text("签名：",
@@ -104,13 +111,19 @@ class Motto extends StatelessWidget{
                           ),
                           TextField(
                               onChanged: (String str){//输入监听
-                                GlobalConfig.mottotemp=str;
+                                GlobalConfig.temp2=str;
                               },
                               keyboardType: TextInputType.text,//设置输入框文本类型
                               textAlign: TextAlign.left,//设置内容显示位置是否居中等
                               decoration: new InputDecoration(
                                 hintText:GlobalConfig.motto,
-                              )
+                              ),
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: GlobalConfig.font
+                            ),
                           ),
                           ],
                         ),
@@ -130,8 +143,8 @@ class Motto extends StatelessWidget{
                             ),
                             color: Colors.lightBlue,
                             onPressed: (){
-                              GlobalConfig.nametemp==""?GlobalConfig.nametemp="":GlobalConfig.name=GlobalConfig.nametemp;
-                              GlobalConfig.mottotemp==""?GlobalConfig.mottotemp="":GlobalConfig.motto=GlobalConfig.mottotemp;
+                              GlobalConfig.temp1==""?GlobalConfig.temp1="":GlobalConfig.name=GlobalConfig.temp1;
+                              GlobalConfig.temp2==""?GlobalConfig.temp2="":GlobalConfig.motto=GlobalConfig.temp2;
                               refreshMain();
                               Navigator.of(context).pop();
                             },),

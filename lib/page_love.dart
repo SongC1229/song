@@ -38,7 +38,7 @@ class _LoveListpageState extends State<LoveListpage> with SingleTickerProviderSt
     });
   }
 
-  void showAlertDialog(BuildContext context,int id,String poemtitle,String author) {
+  void showRemoveDialog(BuildContext context,int id,String poemtitle,String author) {
     showDialog(
         context: context,
         barrierDismissible: false,
@@ -191,7 +191,7 @@ class _LoveListpageState extends State<LoveListpage> with SingleTickerProviderSt
               new IconButton(
                 icon: Icon(Icons.delete_outline),
                 onPressed: (){
-                  showAlertDialog(context,eachdata["id"],eachdata["title"],eachdata["author"]);
+                  showRemoveDialog(context,eachdata["id"],eachdata["title"],eachdata["author"]);
                 },
                 tooltip: '删除',
               ),

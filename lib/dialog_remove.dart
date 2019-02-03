@@ -112,7 +112,7 @@ class Remove extends StatelessWidget{
                         }
                         else
                           {
-                            dbUpdate(id,0,cate+1).whenComplete((){
+                            dbUpdateLove(id,0,cate+1).whenComplete((){
                               refreshfather();
                             });
                           }

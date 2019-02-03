@@ -65,17 +65,17 @@ class _HomeState extends State<Home>{
           });
         },
       );
-      _drawer=MyDrawer(refreshMain: refresh);
+      _drawer=MyDrawer(refreshMain: refreshConf);
   }
 
-  void refresh(){
+  void refreshConf(){
     setState(() {
       updateconf();
     });
   }
 
 
-  refreshpoem(){
+  refreshApp(){
     setState(() {
     });
   }
@@ -83,7 +83,7 @@ class _HomeState extends State<Home>{
   @override
   void initState() {
     super.initState();
-    initconf(refreshpoem);
+    initconf(refreshApp);
     initPoem();
   }
 
@@ -103,7 +103,7 @@ class _HomeState extends State<Home>{
               title: Text(GlobalConfig.poemcate[_currentIndex],style: new TextStyle(fontFamily: GlobalConfig.font,)),
               actions: <Widget>[
               // action button
-              TopIcon(cate:_currentIndex,refreshpoem: refreshpoem,)
+              TopIcon(cate:_currentIndex,refreshpoem: refreshApp,)
               ]
             )
         ),

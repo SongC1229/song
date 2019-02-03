@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'util_db.dart';
 import 'global_config.dart';
-import 'dialog_error.dart';
 
 class CardPage extends StatefulWidget {
   CardPage({@required this.ptheme,@required this.initdata,@required this.color});
@@ -167,7 +166,7 @@ class _CardPageState extends State<CardPage>{
                 onPressed: () {
                   setState(() {
                     data["love"]==0?data["love"]=1:data["love"]=0;
-                    dbUpdate(data["id"],data["love"],widget.ptheme);
+                    dbUpdateLove(data["id"],data["love"],widget.ptheme);
                   });
                 },
                 elevation: 0.0,

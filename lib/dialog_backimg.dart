@@ -69,12 +69,13 @@ class BackImg extends StatelessWidget{
                     borderRadius: new BorderRadius.all(new Radius.circular(8.0)),
                     color: Colors.lightBlue,
                   ),
-                  child:new Text("暂未完成",
+                  child:new Text("  实现很简单\n    但我不想写了！！！\n        打不到我",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 16.0,
                         fontWeight: FontWeight.normal,
                         letterSpacing: 2.0,
+                        height: 1.2,
                         fontFamily:GlobalConfig.font
                     ),
                   ),
