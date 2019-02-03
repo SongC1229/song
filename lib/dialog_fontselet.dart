@@ -10,16 +10,11 @@ class FontSelectDialog extends StatefulWidget {
 }
 
 class _FontSelectDialogState extends State<FontSelectDialog> {
-  int value=3;
+  int value=0;
 
   void updateGroupValue(int v){
     setState(() {
-      value=v;
-      switch(v){
-        case 1:GlobalConfig.font=GlobalConfig.fontnames[0];break;
-        case 2:GlobalConfig.font=GlobalConfig.fontnames[1];break;
-        case 3:GlobalConfig.font=GlobalConfig.fontnames[2];
-      }
+      GlobalConfig.font=GlobalConfig.fontnames[v];
       widget.refreshMain();
     });
   }
@@ -27,9 +22,9 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
   @override
   Widget build(BuildContext context) {
     switch(GlobalConfig.font){
-      case "方正楷体":value=1;break;
-      case "方正准圆":value=2;break;
-      case "安卓系统":value=3;break;
+      case "方正楷体":value=0;break;
+      case "方正准圆":value=1;break;
+      case "安卓系统":value=2;break;
     }
     return new Material( //创建透明层
       type: MaterialType.transparency, //透明类型
@@ -95,7 +90,7 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
                     color: Colors.lightBlue,
                   ),
                   child:new RadioListTile(
-                      value: 1,
+                      value: 0,
                       groupValue: value,
                       title: new Text(GlobalConfig.fontnames[0]+"效果",
                         style: TextStyle(
@@ -118,7 +113,7 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
                     color: Colors.lightBlue,
                   ),
                   child:new RadioListTile(
-                      value: 2,
+                      value: 1,
                       groupValue: value,
                       title: new Text(GlobalConfig.fontnames[1]+"效果",
                         style: TextStyle(
@@ -141,7 +136,7 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
                     color: Colors.lightBlue,
                   ),
                   child:new RadioListTile(
-                      value: 3,
+                      value: 2,
                       groupValue: value,
                       title: new Text(GlobalConfig.fontnames[2]+"效果",
                         style: TextStyle(
