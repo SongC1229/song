@@ -1,11 +1,10 @@
 package sning.song;
 
-import android.os.Build;
-import android.os.Bundle;
-import io.flutter.app.FlutterActivity;
-import io.flutter.plugins.GeneratedPluginRegistrant;
-import io.flutter.plugin.common.MethodCall;
+import androidx.annotation.NonNull;
+import io.flutter.embedding.android.FlutterActivity;
+import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.plugin.common.MethodChannel;
+import io.flutter.plugins.GeneratedPluginRegistrant;
 
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
@@ -18,39 +17,32 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
   private TextToSpeech tts;
   private static final String CHANNEL = "sning.ttspeak";
   private boolean support=false;
-
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-
-//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//API>21,设置状态栏颜色透明
+//   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//API>21,设置状态栏颜色透明
 //      getWindow().setStatusBarColor(0);
 //    }
+  @Override
+  public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
+     GeneratedPluginRegistrant.registerWith(flutterEngine);
 
-    GeneratedPluginRegistrant.registerWith(this);
-
-    new MethodChannel(getFlutterView(), CHANNEL).setMethodCallHandler(
-            new MethodChannel.MethodCallHandler() {
-              @Override
-              public void onMethodCall(MethodCall methodCall, MethodChannel.Result result) {
+     new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), CHANNEL)
+             .setMethodCallHandler(
+                 (call, result) -> {
 //                通过methodCall可以获取参数和方法名  执行对应的平台业务逻辑即可
-                switch (methodCall.method) {
-                  case "speakpoem":
-                    if (tts==null){
-                      inittts();
-                    }
-                    if(support)
-                      tts.speak(methodCall.arguments.toString(), TextToSpeech.QUEUE_FLUSH, null,null);
-                    break;
-                  case "stopspeak":if(support)
-                    tts.stop();
-                  break;
-                  case "continuespeak":break;
-                }
-              }
-            }
-    );
-
+                   switch (call.method) {
+                     case "speakpoem":
+                       if (tts==null){
+                         inittts();
+                       }
+                       if(support)
+                         tts.speak(call.arguments.toString(), TextToSpeech.QUEUE_FLUSH, null,null);
+                       break;
+                     case "stopspeak":if(support)
+                       tts.stop();
+                       break;
+                     case "continuespeak":break;
+                   }
+                 }
+     );
   }
 
 

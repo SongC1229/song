@@ -41,21 +41,21 @@ class _HomeState extends State<Home>{
         items: <BottomNavigationBarItem>[
           new BottomNavigationBarItem(
              icon: Icon(Icons.dashboard,size: 23.0),
-             title: Text(GlobalConfig.poemcate[0],style: TextStyle(fontFamily:GlobalConfig.font,fontSize: 14.0),),
+             label: GlobalConfig.poemcate[0],
+             // title: Text(GlobalConfig.poemcate[0],style: TextStyle(fontFamily:GlobalConfig.font,fontSize: 14.0),),
            ),
           new BottomNavigationBarItem(
             icon:  Icon(Icons.healing,size: 23.0),
-            title: Text(GlobalConfig.poemcate[1],style: TextStyle(fontFamily: GlobalConfig.font,fontSize: 14.0),),
-
+            label: GlobalConfig.poemcate[1],
           ),
           new BottomNavigationBarItem(
             icon: Icon(Icons.filter_vintage,size: 23.0),
-            title: Text(GlobalConfig.poemcate[2],style:TextStyle(fontFamily: GlobalConfig.font,fontSize: 14.0),),
+            label: GlobalConfig.poemcate[2],
           ),
           new BottomNavigationBarItem(
            icon: Icon(Icons.search,size: 23.0),
-           title:Text(GlobalConfig.poemcate[3],style:TextStyle(fontFamily: GlobalConfig.font,fontSize: 14.0),),
-         ),
+            label: GlobalConfig.poemcate[3],
+          ),
         ],
 
         currentIndex: _currentIndex,

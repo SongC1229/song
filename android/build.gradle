@@ -2,11 +2,13 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven { url "http://download.flutter.io" }
+        mavenCentral()
+//        maven { url "https://download.flutter.io" }
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:7.1.2'
+
     }
 }
 
@@ -14,7 +16,9 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven { url "http://download.flutter.io" }
+//        maven { url "http://download.flutter.io" }
+//        maven { url 'http://repo1.maven.org/maven2' }
+
     }
 }
 
