@@ -9,9 +9,9 @@ import 'global_config.dart';
 final theme={1:"Tpoem",2:"Spoem",3:"song"};
 bool dbexist=false;
 bool confexist=false;
-Database shidb;
-Map<String, dynamic> confjson;
-String docDir;
+dynamic shidb;
+Map<String, dynamic> confjson ={};
+String docDir="uninit";
 const platform = const MethodChannel("sning.ttspeak");
 
 void speech(var data) async{
@@ -29,20 +29,19 @@ Future updateconf() async{
   confjson["name"]=GlobalConfig.name;
   JsonEncoder encoder=new JsonEncoder();
   String jsonString=encoder.convert(confjson);
-  if(docDir==null){
+  if(docDir=="uninit"){
     docDir = (await getApplicationDocumentsDirectory()).path;
   }
   new File(docDir+"/conf.json").writeAsString(jsonString);
 }
 
 void initconf( var refreshApp) async{
-  if(docDir==null){
+  if(docDir=="uninit"){
     docDir = (await getApplicationDocumentsDirectory()).path;
   }
   var confpath=docDir+"/conf.json";
   confexist=FileSystemEntity.isFileSync(confpath);
   if(!confexist){
-//    print("拷贝配置文件");
     await rootBundle.loadString('asset/config.json').then((value) async{
       await new File(confpath).writeAsString(value).whenComplete((){
         confexist=true;
@@ -74,13 +73,12 @@ void initconf( var refreshApp) async{
 
 
 void initPoem() async{
-  //数据库不存在就拷贝，存在就加载
-  if(docDir==null){
+  if(docDir=="uninit"){
     docDir = (await getApplicationDocumentsDirectory()).path;
   }
   var dbpath =docDir+"/shi.db";
   dbexist=FileSystemEntity.isFileSync(dbpath);
-//  print(dbexist);
+  //数据库不存在就拷贝，存在就加载
   if(!dbexist){
     Fluttertoast.showToast(
       msg: "拷贝数据中...\n下拉以刷新",
@@ -111,19 +109,9 @@ void initPoem() async{
 
 
 
-Future<Map> getData(int cate,int id) async{
-//  print(GlobalConfig.font.toString());
-  if(shidb==null){
-//    Fluttertoast.showToast(
-//        msg: "数据库为空，获取失败",
-//        toastLength: Toast.LENGTH_SHORT,
-//        gravity: ToastGravity.CENTER,
-//        textcolor: '#000000'
-//    );
-    return null;
-  }
+Future<Map?> getData(int cate,int id) async{
   String sql;
-  id==0?sql="SELECT * FROM "+theme[cate]+" ORDER BY RANDOM() limit 1":sql="select * from "+theme[cate]+" where id= $id";
+  id==0?sql="SELECT * FROM "+theme[cate]!+" ORDER BY RANDOM() limit 1":sql="select * from "+theme[cate]!+" where id= $id";
   List<Map> data = await shidb.rawQuery(sql);
   String title =data[0]["title"];
   String author = data[0]["author"];//utf8.decode(list[0]["author"]);
@@ -143,60 +131,28 @@ Future<Map> getData(int cate,int id) async{
 
 
 //搜索
-Future<List>  dbSearch(String key,int catepoem,int b) async{
-  if(shidb==null){
-    Fluttertoast.showToast(
-        msg: "数据库为空,查询失败",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-    );
-    return null;
-  }
+Future<List?>  dbSearch(String key,int catepoem,int b) async{
 
   List<Map<String, dynamic>> data;
   Map c={1:"title",2:"author",3:"content"};
-  String sql="select * from "+theme[catepoem]+" where "+c[b]+" like '%"+key+"%' limit 500;";
+  String sql="select * from "+theme[catepoem]!+" where "+c[b]+" like '%"+key+"%' limit 500;";
 //  print(sql);
   data = await shidb.rawQuery(sql);
   return data;
 }
 
 Future dbUpdateLove(int id,int love,int cate) async{
-  if(shidb==null){
-    Fluttertoast.showToast(
-        msg: "数据库为空,更改失败",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-    );
-    return null;
-  }
-  String sql="update "+theme[cate]+" set love= ? where id= ?";
+  String sql="update "+theme[cate]!+" set love= ? where id= ?";
   await shidb.rawUpdate(sql,[love,id]);
 }
 
 Future dbUpdatePoem(int id,String title,String author,String content,int cate) async{
-  if(shidb==null){
-    Fluttertoast.showToast(
-        msg: "数据库为空,更改失败",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-    );
-    return null;
-  }
-  String sql="update "+theme[cate]+" set title= ?, author= ?,content= ? where id= ?";
+  String sql="update "+theme[cate]!+" set title= ?, author= ?,content= ? where id= ?";
   await shidb.rawUpdate(sql,[title,author,content,id]);
 }
 
 Future dbDelete(int id,int cate) async{
-  if(shidb==null){
-    Fluttertoast.showToast(
-        msg: "数据库为空,删除失败",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-    );
-    return null;
-  }
-  String sql="delete from "+theme[cate]+" where id=$id";
+  String sql="delete from "+theme[cate]!+" where id=$id";
   int count=await shidb.rawDelete(sql);
   if(count!=1){
     Fluttertoast.showToast(
@@ -209,17 +165,8 @@ Future dbDelete(int id,int cate) async{
 
 
 //搜索
-Future<List>  dbDelectLove(int pomecate) async{
-  if(shidb==null){
-    Fluttertoast.showToast(
-        msg: "数据库为空，查询失败",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-    );
-    return null;
-  }
-  var data;
-  String sql="select id, title,author,content from "+theme[pomecate]+" where love=1;";
-  data = await shidb.rawQuery(sql);
+Future<List?>  dbDelectLove(int pomecate) async{
+  String sql="select id, title,author,content from "+theme[pomecate]!+" where love=1;";
+  var data = await shidb.rawQuery(sql);
   return data;
 }

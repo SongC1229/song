@@ -1,9 +1,17 @@
 buildscript {
     repositories {
-        google()
-        jcenter()
-        mavenCentral()
-//        maven { url "https://download.flutter.io" }
+        maven {
+            allowInsecureProtocol = true
+            url 'https://maven.aliyun.com/repository/google'
+        }
+        maven {
+            allowInsecureProtocol = true
+            url 'https://maven.aliyun.com/repository/jcenter'
+        }
+        maven {
+            allowInsecureProtocol = true
+            url 'http://maven.aliyun.com/nexus/content/groups/public'
+        }
     }
 
     dependencies {
@@ -14,10 +22,18 @@ buildscript {
 
 allprojects {
     repositories {
-        google()
-        jcenter()
-//        maven { url "http://download.flutter.io" }
-//        maven { url 'http://repo1.maven.org/maven2' }
+        maven {
+            allowInsecureProtocol = true
+            url 'https://maven.aliyun.com/repository/google'
+        }
+        maven {
+            allowInsecureProtocol = true
+            url 'https://maven.aliyun.com/repository/jcenter'
+        }
+        maven {
+            allowInsecureProtocol = true
+            url 'http://maven.aliyun.com/nexus/content/groups/public'
+        }
 
     }
 }
@@ -30,6 +46,6 @@ subprojects {
     project.evaluationDependsOn(':app')
 }
 
-task clean(type: Delete) {
+tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }

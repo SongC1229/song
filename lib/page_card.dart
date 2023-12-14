@@ -18,7 +18,7 @@ class _CardPageState extends State<CardPage>{
   // RefreshIndicator requires key to implement state
   final GlobalKey<RefreshIndicatorState> _refreshKey =
   GlobalKey<RefreshIndicatorState>();
-  Map data;
+  late Map data;
   var backimg;
 
   Future<Null> _refresh() {
@@ -38,7 +38,7 @@ class _CardPageState extends State<CardPage>{
     // 初始数据
     data=widget.initdata;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _refreshKey.currentState.show();
+      _refreshKey.currentState!.show();
     });
   }
 
@@ -56,9 +56,8 @@ class _CardPageState extends State<CardPage>{
                 margin: EdgeInsets.only(top:5.0,left: 15.0,right: 15.0),
                 child:Row(
                     children: <Widget>[
-                        RaisedButton(
+                      ElevatedButton (
                           onPressed:(){speech(data);},
-                          color: Colors.blue,
                           child: Row(children: <Widget>[
                             Icon(Icons.audiotrack,size: 23.0),
                             Text("朗读",
@@ -74,9 +73,8 @@ class _CardPageState extends State<CardPage>{
                           ),
                           ),
                         Padding(padding: EdgeInsets.only(left: 10.0),),
-                        RaisedButton(
+                      ElevatedButton (
                             onPressed:stopspeech,
-                            color: Colors.blue,
                             child: Row(children: <Widget>[
                               Icon(Icons.stop,size: 23.0),
                               Text("停止",

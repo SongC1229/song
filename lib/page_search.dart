@@ -6,13 +6,14 @@ import 'global_config.dart';
 import 'dialog_remove.dart';
 import 'dialog_update.dart';
 class SearchPage extends StatefulWidget {
-  SearchPage({Key key,
-    this.controller,
+  SearchPage({
+    // Key key,
+    // this.controller,
     this.velocity = 10,
-  }) : super(key: key);
+  });
 
 
-  final ScrollController controller;
+  final ScrollController controller=ScrollController();
 
   /// Critical value that determine to show [QuickScrollbar].
   /// If the scroll delta offset greater than [velocity], the
@@ -28,9 +29,9 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
   double _offsetTop = 105.0;
   double _barHeight = 30.0;
   // Animation controller for show/hide bar .
-  AnimationController _animationController;
-  Animation _animation;
-  Timer _timer;
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+  late Timer _timer;
 
   @override
   void initState() {
@@ -52,7 +53,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
 
   bool _handleNotification(ScrollNotification notification) {
     if (notification is ScrollUpdateNotification) {
-      if (notification.scrollDelta.abs() > widget.velocity &&
+      if (notification.scrollDelta!.abs() > widget.velocity &&
           notification.metrics.maxScrollExtent != double.infinity) {
         _animationController.value = 0.0;
       }
@@ -76,7 +77,8 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
 
 
   List<DropdownMenuItem> getpoemcate(){
-    List<DropdownMenuItem> items=new List();
+    // List<DropdownMenuItem> items=new List();
+    List<DropdownMenuItem> items = [];
     DropdownMenuItem dropdownMenuItem1=new DropdownMenuItem(
       child:new Text(" 唐 诗",style: TextStyle(fontFamily:GlobalConfig.font,)),
       value: 1,
@@ -96,7 +98,8 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
   }
 
   List<DropdownMenuItem> getcate(){
-    List<DropdownMenuItem> items=new List();
+    // List<DropdownMenuItem> items=new List();
+    List<DropdownMenuItem> items = [];
     DropdownMenuItem dropdownMenuItem1=new DropdownMenuItem(
       child:new Text(" 标 题",style: TextStyle(fontFamily:GlobalConfig.font,)),
       value: 1,
@@ -117,8 +120,11 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
 
   void _search() {
     dbSearch(key,value1,value2).then((result,) {
+      var len=0;
+      if(result !=null)
+        len = result.length;
       Fluttertoast.showToast(
-          msg: "查询到"+result.length.toString()+"条",
+          msg: "查询到"+len.toString()+"条",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
       );
@@ -247,9 +253,8 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                     Expanded(
                       child: Container(
                         margin: EdgeInsets.only(left: 5.0),
-                        child:RaisedButton(
+                        child:ElevatedButton (
                             onPressed:_search,
-                            color: Colors.blue,
                             child: Icon(Icons.search,size: 23.0)
                         ),
 //                        color: Colors.blue,

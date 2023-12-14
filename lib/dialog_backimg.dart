@@ -3,8 +3,6 @@ import 'global_config.dart';
 
 class BackImg extends StatelessWidget{
 
-  const BackImg({ Key key }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return new Material( //创建透明层

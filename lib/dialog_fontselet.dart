@@ -102,7 +102,7 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
                         ),
                       ),
                       onChanged: (T){
-                        updateGroupValue(T);
+                        updateGroupValue(T!);
                       }),
                 ),
                 new Container(
@@ -125,7 +125,7 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
                         ),
                       ),
                       onChanged: (T){
-                        updateGroupValue(T);
+                        updateGroupValue(T!);
                       }),
                 ),
                 new Container(
@@ -148,7 +148,7 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
                         ),
                       ),
                       onChanged: (T){
-                        updateGroupValue(T);
+                        updateGroupValue(T!);
                       }),
                 ),
               ],

@@ -17,9 +17,9 @@ class Update extends StatefulWidget{
 
 class _UpdateState extends State<Update> {
 
-  TextEditingController tit;
-  TextEditingController aut;
-  TextEditingController con;
+  late TextEditingController tit;
+  late TextEditingController aut;
+  late TextEditingController con;
   @override
   void initState() {
     super.initState();
@@ -124,6 +124,7 @@ class _UpdateState extends State<Update> {
                                     fontWeight: FontWeight.normal,
                                     fontFamily: GlobalConfig.font,
                                 ),
+                                backgroundCursorColor: Colors.grey,
                             ),
                           ],
                         ),),
@@ -149,6 +150,7 @@ class _UpdateState extends State<Update> {
                             fontWeight: FontWeight.normal,
                             fontFamily: GlobalConfig.font
                             ),
+                            backgroundCursorColor: Colors.grey,
                           ),
                       ),
                       Text("作者：",
@@ -173,6 +175,7 @@ class _UpdateState extends State<Update> {
                                   fontWeight: FontWeight.normal,
                                   fontFamily: GlobalConfig.font
                               ),
+                            backgroundCursorColor: Colors.grey,
                           ),
                       )
                     ],
@@ -182,7 +185,7 @@ class _UpdateState extends State<Update> {
                 Row(
                   mainAxisAlignment:MainAxisAlignment.end ,
                   children: <Widget>[
-                    new FlatButton(
+                    new TextButton(
                       child:new Text("确定",
                         style: TextStyle(
                             color: Colors.black,
@@ -191,7 +194,6 @@ class _UpdateState extends State<Update> {
                             fontFamily: GlobalConfig.font
                         ),
                       ),
-                      color: Colors.lightBlue,
                       onPressed: (){
                         dbUpdatePoem(widget.id,tit.text,aut.text,con.text,widget.cate).whenComplete((){
                           widget.refreshfather();
@@ -200,7 +202,7 @@ class _UpdateState extends State<Update> {
                       },),
 
                     Padding(padding: EdgeInsets.only(left: 10.0),),
-                    new FlatButton(
+                    new TextButton(
                       child:new Text("取消",
                         style: TextStyle(
                             color: Colors.black,
@@ -209,7 +211,6 @@ class _UpdateState extends State<Update> {
                             fontFamily: GlobalConfig.font
                         ),
                       ),
-                      color: Colors.lightBlue,
                       onPressed: (){
                         Navigator.of(context).pop();
                       },

@@ -49,74 +49,75 @@ class _LoveListpageState extends State<LoveListpage> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     return
-      WillPopScope(
-          onWillPop: () {
-            GlobalConfig.backfromlove=true;
-            widget.refreshpoem();
-            Navigator.of(context).pop(true);
-          },
-      child:Scaffold(
-        backgroundColor:GlobalConfig.appBackgroundColor,
-        appBar:PreferredSize(
-          preferredSize: Size.fromHeight(45.0),
-          child:
-            AppBar(
-              leading: IconButton(
-                  icon: Icon(Icons.arrow_back),
-                  onPressed: (){
-                    GlobalConfig.backfromlove=true;
-                    widget.refreshpoem();
-                    Navigator.pop(context); //关闭对话框
-                    }
-                  ),
-              title: Text('收藏',style: new TextStyle(fontFamily: GlobalConfig.font,)),
-              centerTitle: true,
-              actions: <Widget>[
-                // overflow menu
-                PopupMenuButton<int>(
-                  child: Row(
-                    children: <Widget>[
-                      Icon(Icons.arrow_drop_down),
-                      Text(GlobalConfig.poemcate[cate],
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.normal,
-                            letterSpacing: 5.0,
-                            fontFamily: GlobalConfig.font
-                        ),
-                      ),
-                      Padding(padding: EdgeInsets.only(right: 20),)
-                    ],
-                  ),
-                  onSelected: _select,
-                  itemBuilder: (BuildContext context) {
-                    return [0,1,2].map((int choice) {
-                      return PopupMenuItem<int>(
-                        value: choice,
-                        child: Text(GlobalConfig.poemcate[choice],
-                            style:TextStyle(
-                            color: Colors.lightBlue,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.normal,
-                            letterSpacing: 5.0,
-                            fontFamily: GlobalConfig.font
+      PopScope(
+            canPop: true,
+            onPopInvoked: (bool ) {
+              GlobalConfig.backfromlove=true;
+              widget.refreshpoem();
+              Navigator.of(context).pop(true);
+            },
+          child:Scaffold(
+              backgroundColor:GlobalConfig.appBackgroundColor,
+              appBar:PreferredSize(
+                preferredSize: Size.fromHeight(45.0),
+                  child:
+                    AppBar(
+                      leading: IconButton(
+                          icon: Icon(Icons.arrow_back),
+                          onPressed: (){
+                            GlobalConfig.backfromlove=true;
+                            widget.refreshpoem();
+                            Navigator.pop(context); //关闭对话框
+                            }
                           ),
+                      title: Text('收藏',style: new TextStyle(fontFamily: GlobalConfig.font,)),
+                      centerTitle: true,
+                      actions: <Widget>[
+                        // overflow menu
+                        PopupMenuButton<int>(
+                          child: Row(
+                            children: <Widget>[
+                              Icon(Icons.arrow_drop_down),
+                              Text(GlobalConfig.poemcate[cate],
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.normal,
+                                    letterSpacing: 5.0,
+                                    fontFamily: GlobalConfig.font
+                                ),
+                              ),
+                              Padding(padding: EdgeInsets.only(right: 20),)
+                            ],
+                          ),
+                          onSelected: _select,
+                          itemBuilder: (BuildContext context) {
+                            return [0,1,2].map((int choice) {
+                              return PopupMenuItem<int>(
+                                value: choice,
+                                child: Text(GlobalConfig.poemcate[choice],
+                                    style:TextStyle(
+                                    color: Colors.lightBlue,
+                                    fontSize: 18.0,
+                                    fontWeight: FontWeight.normal,
+                                    letterSpacing: 5.0,
+                                    fontFamily: GlobalConfig.font
+                                  ),
+                                ),
+                              );
+                            }).toList();
+                          },
                         ),
-                      );
-                    }).toList();
-                  },
-                ),
-              ],
-            )
-        ),
-        body:Container(
-            margin: EdgeInsets.only(left: 15.0,right: 15.0),
-            child:ListView(
-              children: genList(),
+                      ],
+                  )
             ),
-          )  ,
-      )
+                body:Container(
+                    margin: EdgeInsets.only(left: 15.0,right: 15.0),
+                    child:ListView(
+                      children: genList(),
+                    ),
+                  )  ,
+              )
       );
   }
 

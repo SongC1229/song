@@ -3,7 +3,6 @@ import 'global_config.dart';
 import 'dialog_about.dart';
 import 'dialog_fontselet.dart';
 import 'dialog_backimg.dart';
-//import 'main.dart';
 import 'dialog_motto.dart';
 
 class MyDrawer extends StatefulWidget {

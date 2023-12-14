@@ -93,7 +93,7 @@ class Remove extends StatelessWidget{
                 Row(
                   mainAxisAlignment:MainAxisAlignment.end ,
                   children: <Widget>[
-                    new FlatButton(
+                    new TextButton(
                       child:new Text("确定",
                         style: TextStyle(
                             color: Colors.black,
@@ -102,7 +102,6 @@ class Remove extends StatelessWidget{
                             fontFamily: GlobalConfig.font
                         ),
                       ),
-                      color: Colors.lightBlue,
                       onPressed: (){
                         if(dbremove){
                           //删除数据
@@ -120,7 +119,7 @@ class Remove extends StatelessWidget{
                       },),
 
                     Padding(padding: EdgeInsets.only(left: 10.0),),
-                    new FlatButton(
+                    new TextButton(
                       child:new Text("取消",
                         style: TextStyle(
                             color: Colors.black,
@@ -129,7 +128,6 @@ class Remove extends StatelessWidget{
                             fontFamily: GlobalConfig.font
                         ),
                       ),
-                      color: Colors.lightBlue,
                       onPressed: (){
                         Navigator.of(context).pop();
                       },
