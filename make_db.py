@@ -8,12 +8,13 @@ empty_count = 0
 
 
 class Poem:
-    __slots__ = ('id', 'title', 'author', 'text')
+    __slots__ = ('id', 'title', 'author', 'text','love')
 
     def __init__(self, id, title, author, text):
         self.id = id
         self.title = title
         self.author = author
+        self.love = 0
 
         #text = re.sub(r'(？|！)(?!\n|$)', r'\1\n', text)
         #text = re.sub(r'^YY', '', text, flags=re.M)
@@ -23,9 +24,10 @@ class Poem:
 
     def get_tuple(self):
         return (self.id,
-                self.title.encode('utf_16_le'),
-                self.author.encode('utf_16_le'),
-                self.text.encode('utf_16_le'))
+                self.title,
+                self.author,
+                self.text,
+                self.love)
 
     def __str__(self):
         return 'ID:%d\n标题：%s\n作者：%s\n内容：\n%s\n' % \
@@ -51,13 +53,14 @@ def findbrace(id, s):
 
 def load_poem():
     def key(s):
+        print(s)
         r = re.search(r'\.(\d+)\.', s)
         r = r.group(1)
         return int(r)
 
-    l = glob.glob('poet.song.*.json')
+    l = glob.glob('ci.song.*.json')
     l.sort(key=key)
-
+    # l=['shijing.json']
     lst = []
     id = 1
     for fn in l:
@@ -67,10 +70,17 @@ def load_poem():
             obj = json.load(f)
 
         for d in obj:
-            title = d['title']
-            author = d['author']
+            # title = d['title']
+            # author = d['chapter']+"·"+d['section']
+            # paras = d['content']
 
+            title = d['rhythmic']
+            author = d['author']
             paras = d['paragraphs']
+
+            # title = d['title']
+            # author = d['author']
+            # paras = d['paragraphs']
             text = process_paragraphs(paras)
             text = findbrace(id, text)
 
@@ -95,18 +105,33 @@ def create_db(db_name):
     db = sqlite3.connect(db_name, isolation_level=None)
 
     # 建表
-    sql = ('CREATE TABLE Tpoem('
+    create_t_sql = ('CREATE TABLE Tpoem('
+           'id INTEGER PRIMARY KEY,'
+           'title TEXT,'
+           'author TEXT,'
+           'content TEXT,'
+           'love INTEGER);')
+    create_s_sql = ('CREATE TABLE Spoem('
            'id INTEGER PRIMARY KEY,'
            'title BLOB,'
            'author BLOB,'
-           'content BLOB);')
-    db.execute(sql)
+           'content BLOB,'
+           'love INTEGER);')
+    create_song_sql = ('CREATE TABLE song('
+           'id INTEGER PRIMARY KEY,'
+           'title TEXT,'
+           'author TEXT,'
+           'content TEXT,'
+           'love  INTEGER);')
+    # db.execute(create_t_sql)
+    # db.execute(create_s_sql)
+    # db.execute(create_song_sql)
 
     return db
 
 
 def save_close_db(lst, db):
-    sql = 'INSERT INTO Tpoem VALUES(?,?,?,?);'
+    sql = 'INSERT INTO Spoem VALUES(?,?,?,?,?);'
     db.execute('BEGIN')
     for p in lst:
         db.execute(sql, p.get_tuple())
@@ -120,11 +145,11 @@ def save_close_db(lst, db):
 def main():
     #json data:https://github.com/chinese-poetry/chinese-poetry
     db_name = 'shi.db'
-    # 删已有
-    try:
-        os.remove(db_name)
-    except Exception as e:
-        print(e)
+    # # 删已有
+    # try:
+    #     os.remove(db_name)
+    # except Exception as e:
+    #     print(e)
 
     # 诗
     lst = load_poem()
