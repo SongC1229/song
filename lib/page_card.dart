@@ -44,7 +44,6 @@ class _CardPageState extends State<CardPage>{
 
   @override
   Widget build(BuildContext context) {
-//    print(widget.ptheme.toString()+" page build");
     return Scaffold(
       backgroundColor:GlobalConfig.appBackgroundColor,
       body: RefreshIndicator(

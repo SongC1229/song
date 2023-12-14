@@ -7,8 +7,6 @@ import 'dialog_remove.dart';
 import 'dialog_update.dart';
 class SearchPage extends StatefulWidget {
   SearchPage({
-    // Key key,
-    // this.controller,
     this.velocity = 10,
   });
 
@@ -77,7 +75,6 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
 
 
   List<DropdownMenuItem> getpoemcate(){
-    // List<DropdownMenuItem> items=new List();
     List<DropdownMenuItem> items = [];
     DropdownMenuItem dropdownMenuItem1=new DropdownMenuItem(
       child:new Text(" 唐 诗",style: TextStyle(fontFamily:GlobalConfig.font,)),
@@ -98,7 +95,6 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
   }
 
   List<DropdownMenuItem> getcate(){
-    // List<DropdownMenuItem> items=new List();
     List<DropdownMenuItem> items = [];
     DropdownMenuItem dropdownMenuItem1=new DropdownMenuItem(
       child:new Text(" 标 题",style: TextStyle(fontFamily:GlobalConfig.font,)),
@@ -142,7 +138,6 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-//    print("searchpage refresh");
     ScrollController scrollController =
         widget.controller
             ?? PrimaryScrollController.of(context)
@@ -257,7 +252,6 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                             onPressed:_search,
                             child: Icon(Icons.search,size: 23.0)
                         ),
-//                        color: Colors.blue,
                         decoration: BoxDecoration(
                           border: Border.all(width: 1.0, color: Colors.blue),
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),

@@ -196,7 +196,6 @@ class _LoveListpageState extends State<LoveListpage> with SingleTickerProviderSt
                 },
                 tooltip: '删除',
               ),
-//            ),
           ],),
 
         ],
