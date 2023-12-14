@@ -54,7 +54,7 @@ class _LoveListpageState extends State<LoveListpage> with SingleTickerProviderSt
             onPopInvoked: (bool ) {
               GlobalConfig.backfromlove=true;
               widget.refreshpoem();
-              Navigator.of(context).pop(true);
+              // Navigator.of(context).pop(true);
             },
           child:Scaffold(
               backgroundColor:GlobalConfig.appBackgroundColor,

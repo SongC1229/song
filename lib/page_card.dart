@@ -108,13 +108,7 @@ class _CardPageState extends State<CardPage>{
 //                        ),
                     ]
                    ),
-//                    decoration: BoxDecoration(
-//                      border: Border.all(width: 1.0, color: Colors.blue),
-//                      borderRadius: BorderRadius.all(Radius.circular(5.0)),
-//                      color:Colors.blue,
-//                    ),
                  ),
-//              Padding(padding: new EdgeInsets.only(top: 10,bottom: 10.0),),
               Container(
                 margin: const EdgeInsets.only(left:15.0,right: 15.0,bottom: 15.0,top: 10.0),
                 decoration: new BoxDecoration(

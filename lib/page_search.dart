@@ -38,6 +38,10 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
     new AnimationController(vsync: this, duration: Duration(milliseconds: 200));
     _animation = Tween(begin: 1.0, end: 0.0).animate(_animationController);
     _animationController.value = 1.0;
+    _timer = new Timer(Duration(seconds: 1), () {
+      _animationController.animateTo(1.0);
+      _animationController.forward();
+    });
   }
 
   void _fadeBar() {
@@ -253,9 +257,8 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                             child: Icon(Icons.search,size: 23.0)
                         ),
                         decoration: BoxDecoration(
-                          border: Border.all(width: 1.0, color: Colors.blue),
-                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                          color:Colors.blue,
+                          borderRadius: BorderRadius.all(Radius.circular(1.0)),
+                          // color:Colors.blue,
                         ),
                       ),
                       flex: 2,

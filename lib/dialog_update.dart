@@ -35,7 +35,7 @@ class _UpdateState extends State<Update> {
       child: new Center( //保证控件居中效果
         child: new SizedBox(
           width: 280.0,
-          height: 360.0,
+          height: 380.0,
           child: new Container(
             decoration: new BoxDecoration(
               borderRadius: new BorderRadius.all(new Radius.circular(10.0)),
