@@ -61,7 +61,7 @@ class _CardPageState extends State<CardPage>{
                             Icon(Icons.audiotrack,size: 23.0),
                             Text("朗读",
                                 style: TextStyle(
-                                color: widget.color,
+                                color: Colors.black,
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.normal,
                                 letterSpacing: 5.0,
@@ -78,7 +78,7 @@ class _CardPageState extends State<CardPage>{
                               Icon(Icons.stop,size: 23.0),
                               Text("停止",
                                 style: TextStyle(
-                                    color: widget.color,
+                                    color: Colors.black,
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.normal,
                                     letterSpacing: 5.0,
