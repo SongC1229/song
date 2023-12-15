@@ -106,7 +106,7 @@ class AboutDia extends StatelessWidget{
                     borderRadius: new BorderRadius.all(new Radius.circular(8.0)),
                     color: Colors.lightBlue,
                   ),
-                  child:new Text("yezi v0.2 by Flutter",
+                  child:new Text("YeZi v0.9 by Flutter 3.16",
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 16.0,

@@ -35,9 +35,13 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
                        }
                        if(support)
                          tts.speak(call.arguments.toString(), TextToSpeech.QUEUE_FLUSH, null,null);
+                       else {
+                         Toast.makeText(this,"无语音引擎",Toast.LENGTH_SHORT).show();
+                       }
                        break;
-                     case "stopspeak":if(support)
-                       tts.stop();
+                     case "stopspeak":
+                       if(support)
+                         tts.stop();
                        break;
                      case "continuespeak":break;
                    }
@@ -60,11 +64,8 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
       tts.setPitch(1.0f);
       //设置语速
       tts.setSpeechRate(0.95f);
-//      Toast.makeText(this,"支持语音",Toast.LENGTH_SHORT).show();
       support=true;
-    }
-    else {
-      Toast.makeText(this,"不支持语音",Toast.LENGTH_SHORT).show();
+      Toast.makeText(this,"支持语音",Toast.LENGTH_SHORT).show();
     }
   }
 
