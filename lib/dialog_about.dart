@@ -3,6 +3,7 @@ import 'global_config.dart';
 
 class AboutDia extends StatelessWidget{
 
+
   @override
   Widget build(BuildContext context) {
     return new Material( //创建透明层
@@ -20,45 +21,7 @@ class AboutDia extends StatelessWidget{
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                new Container(
-                  height:30,
-                  margin:const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 5.0),
-                  child:Row(children: <Widget>[
-                    Container(width:30.0,child:Icon(Icons.info,color: Colors.cyan)),
-                    Container(
-                      width:170,
-                      child:new Align(
-                        alignment:FractionalOffset.centerLeft,
-                        child: new Text(" 关于",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.normal,
-                              letterSpacing: 5.0,
-                              fontFamily: GConfig.font
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 60,
-                      child:FloatingActionButton(
-                          onPressed: (){
-                            Navigator.pop(context); //关闭对话框
-                          },
-                          tooltip: '关闭',
-                          backgroundColor: Colors.red,
-                          child: new Icon(Icons.close),
-                        ),
-                      ),
-                  ],
-                  ),
-                ),
-                new Container(
-                  margin: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                  color:Colors.black54,
-                  height: 1.5,
-                ),
+                gDialogTitle(context, " 关于", Icons.info),
                 new Container(
                   width: 250,
                   height: 50,

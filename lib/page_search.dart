@@ -87,7 +87,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
     List<DropdownMenuItem> cate = [];
     for (var key in poemcate.keys){
       cate.add(DropdownMenuItem(
-          child: Gtext(key),
+          child: gText(key),
           value: poemcate[key]));
     }
     return cate;
@@ -102,7 +102,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
     List<DropdownMenuItem> cate = [];
     for (var key in search_type.keys){
       cate.add(DropdownMenuItem(
-          child: Gtext(key),
+          child: gText(key),
           value: search_type[key]));
     }
     return cate;

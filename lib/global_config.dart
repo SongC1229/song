@@ -25,6 +25,55 @@ class GConfig {
   static String temp2="";
   static bool backfromlove=false;
 }
-Text Gtext(String text){
+Text gText(String text){
   return Text(text, style: TextStyle(fontFamily:GConfig.font, fontSize: GConfig.fontSize));
+}
+
+Container gDialogTitle(BuildContext context,String title,IconData icon){
+  return Container(
+      height:42,
+      margin:const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 0.0),
+      child:
+      Column(
+        children: [
+          Row(children: <Widget>[
+            Container(width:30.0,child:Icon(icon,color: Colors.cyan)),
+            Container(
+              width:170,
+              child:new Align(
+                alignment:FractionalOffset.centerLeft,
+                child: new Text(title,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.normal,
+                      letterSpacing: 5.0,
+                      fontFamily: GConfig.font
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              width: 60,
+              height: 30,
+              child:FloatingActionButton(
+                onPressed: (){
+                  Navigator.pop(context); //关闭对话框
+                },
+                tooltip: '关闭',
+                backgroundColor: Color(0x93ABB2E5),
+
+                child: new Icon(Icons.close),
+              ),
+            ),
+          ],
+          ),
+          new Container(
+            margin: EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+            color:Colors.black54,
+            height: 1.5,
+          ),
+        ],
+      )
+  );
 }

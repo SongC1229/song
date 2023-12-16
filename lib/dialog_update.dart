@@ -46,45 +46,7 @@ class _UpdateState extends State<Update> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                new Container(
-                  height:30,
-                  margin:const EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 5.0),
-                  child:Row(children: <Widget>[
-                    Container(width:30.0,child:Icon(Icons.create,color: Colors.cyan)),
-                    Container(
-                      width:170,
-                      child:new Align(
-                        alignment:FractionalOffset.centerLeft,
-                        child: new Text(" 修正",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.normal,
-                              letterSpacing: 5.0,
-                              fontFamily: GConfig.font
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 60,
-                      child:FloatingActionButton(
-                        onPressed: (){
-                          Navigator.pop(context); //关闭对话框
-                        },
-                        tooltip: '关闭',
-                        backgroundColor: Colors.red,
-                        child: new Icon(Icons.close),
-                      ),
-                    ),
-                  ],
-                  ),
-                ),
-                new Container(
-                  margin: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-                  color:Colors.black54,
-                  height: 1.5,
-                ),
+                gDialogTitle(context, " 修正", Icons.create),
                 new Container(
                   width: 250,
                   margin: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 0.0),

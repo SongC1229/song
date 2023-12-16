@@ -34,7 +34,7 @@ class _MyDrawerState extends State<MyDrawer> {
                         height: 1,
                       ), //分割线控件
                       ListTile(
-                        title: Gtext(
+                        title: gText(
                           "签 名",
                         ),
                         leading: Icon(
@@ -54,7 +54,7 @@ class _MyDrawerState extends State<MyDrawer> {
                               : Icons.brightness_2,
                           color: Colors.cyan,
                         ),
-                        title: Gtext(
+                        title: gText(
                           GConfig.dark == true ? "日 间" : "夜 间",
                         ),
                         onTap: () {
@@ -70,7 +70,7 @@ class _MyDrawerState extends State<MyDrawer> {
                         height: 1,
                       ), //分割线控件
                       ListTile(
-                        title: Gtext("字 体"),
+                        title: gText("字 体"),
                         leading: Icon(
                           Icons.font_download,
                           color: Colors.cyan,
@@ -82,7 +82,7 @@ class _MyDrawerState extends State<MyDrawer> {
                         height: 1,
                       ), //分割线控件
                       ListTile(
-                        title: Gtext("背 景"),
+                        title: gText("背 景"),
                         leading: Icon(Icons.image, color: Colors.cyan),
                         onTap: _setBackimg,
                       ),
@@ -96,7 +96,7 @@ class _MyDrawerState extends State<MyDrawer> {
                             Icons.info,
                             color: Colors.cyan,
                           ),
-                          title: Gtext('关 于'),
+                          title: gText('关 于'),
                           onTap: _aboutPage),
                       new Divider(
                         color: Colors.grey,
@@ -110,7 +110,7 @@ class _MyDrawerState extends State<MyDrawer> {
               child: Container(
                 child: new Align(
                   alignment: FractionalOffset.center,
-                  child: Gtext("☺  https://github.com/Sningi"),
+                  child: gText("☺  https://github.com/Sningi"),
                 ),
               )),
         ],
