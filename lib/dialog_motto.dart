@@ -13,11 +13,11 @@ class Motto extends StatelessWidget{
       child: new Center( //保证控件居中效果
         child: new SizedBox(
           width: 280.0,
-          height: 280.0,
+          height: 300.0,
           child: new Container(
             decoration: new BoxDecoration(
               borderRadius: new BorderRadius.all(new Radius.circular(10.0)),
-              color: GlobalConfig.appBackgroundColor,
+              color: GConfig.appBackgroundColor,
             ),
             child:
                   Column(
@@ -39,7 +39,7 @@ class Motto extends StatelessWidget{
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.normal,
                                     letterSpacing: 5.0,
-                                    fontFamily: GlobalConfig.font
+                                    fontFamily: GConfig.font
                                 ),
                               ),
                             ),
@@ -80,23 +80,23 @@ class Motto extends StatelessWidget{
                                 color: Colors.black,
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.normal,
-                                fontFamily: GlobalConfig.font
+                                fontFamily: GConfig.font
                             ),
                           ),
                           TextField(
                               onChanged: (String str){//输入监听
-                                GlobalConfig.temp1=str;
+                                GConfig.temp1=str;
                               },
                               keyboardType: TextInputType.text,//设置输入框文本类型
                               textAlign: TextAlign.left,//设置内容显示位置是否居中等
                               decoration: new InputDecoration(
-                                hintText: GlobalConfig.name,
+                                hintText: GConfig.name,
                               ),
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.normal,
-                                fontFamily: GlobalConfig.font,
+                                fontFamily: GConfig.font,
 
                             ),
                           ),
@@ -106,23 +106,23 @@ class Motto extends StatelessWidget{
                                 color: Colors.black,
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.normal,
-                                fontFamily: GlobalConfig.font
+                                fontFamily: GConfig.font
                             ),
                           ),
                           TextField(
                               onChanged: (String str){//输入监听
-                                GlobalConfig.temp2=str;
+                                GConfig.temp2=str;
                               },
                               keyboardType: TextInputType.text,//设置输入框文本类型
                               textAlign: TextAlign.left,//设置内容显示位置是否居中等
                               decoration: new InputDecoration(
-                                hintText:GlobalConfig.motto,
+                                hintText:GConfig.motto,
                               ),
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 14.0,
                                 fontWeight: FontWeight.normal,
-                                fontFamily: GlobalConfig.font
+                                fontFamily: GConfig.font
                             ),
                           ),
                           ],
@@ -138,12 +138,12 @@ class Motto extends StatelessWidget{
                                   color: Colors.black,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.normal,
-                                  fontFamily: GlobalConfig.font
+                                  fontFamily: GConfig.font
                               ),
                             ),
                             onPressed: (){
-                              GlobalConfig.temp1==""?GlobalConfig.temp1="":GlobalConfig.name=GlobalConfig.temp1;
-                              GlobalConfig.temp2==""?GlobalConfig.temp2="":GlobalConfig.motto=GlobalConfig.temp2;
+                              GConfig.temp1==""?GConfig.temp1="":GConfig.name=GConfig.temp1;
+                              GConfig.temp2==""?GConfig.temp2="":GConfig.motto=GConfig.temp2;
                               refreshMain();
                               Navigator.of(context).pop();
                             },),
@@ -155,7 +155,7 @@ class Motto extends StatelessWidget{
                                   color: Colors.black,
                                   fontSize: 16.0,
                                   fontWeight: FontWeight.normal,
-                                  fontFamily: GlobalConfig.font
+                                  fontFamily: GConfig.font
                               ),
                             ),
                             onPressed: (){

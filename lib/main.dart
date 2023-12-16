@@ -37,24 +37,24 @@ class _HomeState extends State<Home>{
         );
 
       _tabbar=CupertinoTabBar(
-        backgroundColor: GlobalConfig.dark == true ?Colors.white70:Colors.white,
+        backgroundColor: GConfig.dark == true ?Colors.white70:Colors.white,
         items: <BottomNavigationBarItem>[
           new BottomNavigationBarItem(
              icon: Icon(Icons.dashboard,size: 23.0),
-             label: GlobalConfig.poemcate[0],
+             label: GConfig.poemcate[0],
              // title: Text(GlobalConfig.poemcate[0],style: TextStyle(fontFamily:GlobalConfig.font,fontSize: 14.0),),
            ),
           new BottomNavigationBarItem(
             icon:  Icon(Icons.healing,size: 23.0),
-            label: GlobalConfig.poemcate[1],
+            label: GConfig.poemcate[1],
           ),
           new BottomNavigationBarItem(
             icon: Icon(Icons.filter_vintage,size: 23.0),
-            label: GlobalConfig.poemcate[2],
+            label: GConfig.poemcate[2],
           ),
           new BottomNavigationBarItem(
            icon: Icon(Icons.search,size: 23.0),
-            label: GlobalConfig.poemcate[3],
+            label: GConfig.poemcate[3],
           ),
         ],
 
@@ -92,7 +92,7 @@ class _HomeState extends State<Home>{
     initData();
 //    print("home build");
     return  MaterialApp(
-      theme: GlobalConfig.themeData,
+      theme: GConfig.themeData,
       home: Scaffold(
         appBar:
         PreferredSize(
@@ -100,7 +100,7 @@ class _HomeState extends State<Home>{
             child:
             AppBar(
               centerTitle:true,
-              title: Text(GlobalConfig.poemcate[_currentIndex],style: new TextStyle(fontFamily: GlobalConfig.font,)),
+              title: Text(GConfig.poemcate[_currentIndex],style: new TextStyle(fontFamily: GConfig.font,)),
               actions: <Widget>[
               // action button
               TopIcon(cate:_currentIndex,refreshpoem: refreshApp,)
@@ -110,7 +110,7 @@ class _HomeState extends State<Home>{
         drawer: _drawer,
         body: _body,
         bottomNavigationBar: _tabbar,
-        backgroundColor: GlobalConfig.appBackgroundColor,
+        backgroundColor: GConfig.appBackgroundColor,
       ),
     );
 
@@ -124,7 +124,7 @@ class TopIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  IconButton(
-        icon: Icon(Icons.assignment,size: 23,color: Colors.white,),
+        icon: Icon(Icons.assignment,size: 23,color: Colors.grey,),
         onPressed: () {
           showDialog(
               context: context,

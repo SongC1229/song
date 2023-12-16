@@ -23,10 +23,10 @@ void stopspeech() async{
 }
 
 Future updateconf() async{
-  confjson["font"]=GlobalConfig.font;
-  confjson["dark"]=GlobalConfig.dark;
-  confjson["motto"]=GlobalConfig.motto;
-  confjson["name"]=GlobalConfig.name;
+  confjson["font"]=GConfig.font;
+  confjson["dark"]=GConfig.dark;
+  confjson["motto"]=GConfig.motto;
+  confjson["name"]=GConfig.name;
   JsonEncoder encoder=new JsonEncoder();
   String jsonString=encoder.convert(confjson);
   if(docDir=="uninit"){
@@ -47,11 +47,11 @@ void initconf( var refreshApp) async{
         confexist=true;
         JsonDecoder decoder = new JsonDecoder();
         confjson = decoder.convert(value);
-        GlobalConfig.font=confjson["font"];
-        GlobalConfig.dark=confjson["dark"];
-        GlobalConfig.motto=confjson["motto"];
-        GlobalConfig.name=confjson["name"];
-        GlobalConfig.dark?GlobalConfig.appBackgroundColor=GlobalConfig.night:GlobalConfig.appBackgroundColor=GlobalConfig.light;
+        GConfig.font=confjson["font"];
+        GConfig.dark=confjson["dark"];
+        GConfig.motto=confjson["motto"];
+        GConfig.name=confjson["name"];
+        GConfig.dark?GConfig.appBackgroundColor=GConfig.night:GConfig.appBackgroundColor=GConfig.light;
         refreshApp();
       });
     });
@@ -61,11 +61,11 @@ void initconf( var refreshApp) async{
 //      print("加载配置文件");
       JsonDecoder decoder = new JsonDecoder();
       confjson = decoder.convert(value);
-      GlobalConfig.font=confjson["font"];
-      GlobalConfig.dark=confjson["dark"];
-      GlobalConfig.motto=confjson["motto"];
-      GlobalConfig.name=confjson["name"];
-      GlobalConfig.dark?GlobalConfig.appBackgroundColor=GlobalConfig.night:GlobalConfig.appBackgroundColor=GlobalConfig.light;
+      GConfig.font=confjson["font"];
+      GConfig.dark=confjson["dark"];
+      GConfig.motto=confjson["motto"];
+      GConfig.name=confjson["name"];
+      GConfig.dark?GConfig.appBackgroundColor=GConfig.night:GConfig.appBackgroundColor=GConfig.light;
       refreshApp();
     });
   }

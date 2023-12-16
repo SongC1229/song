@@ -14,7 +14,7 @@ class BackImg extends StatelessWidget{
           child: new Container(
             decoration: new BoxDecoration(
               borderRadius: new BorderRadius.all(new Radius.circular(10.0)),
-              color: GlobalConfig.appBackgroundColor,
+              color: GConfig.appBackgroundColor,
             ),
             child: new Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -35,7 +35,7 @@ class BackImg extends StatelessWidget{
                               fontSize: 20.0,
                               fontWeight: FontWeight.normal,
                               letterSpacing: 5.0,
-                              fontFamily: GlobalConfig.font
+                              fontFamily: GConfig.font
                           ),
                         ),
                       ),
@@ -74,7 +74,7 @@ class BackImg extends StatelessWidget{
                         fontWeight: FontWeight.normal,
                         letterSpacing: 2.0,
                         height: 1.2,
-                        fontFamily:GlobalConfig.font
+                        fontFamily:GConfig.font
                     ),
                   ),
                 ),

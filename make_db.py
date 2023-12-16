@@ -3,6 +3,7 @@ import os
 import json
 import re
 import sqlite3
+from zhconv import convert
 
 empty_count = 0
 
@@ -24,9 +25,9 @@ class Poem:
 
     def get_tuple(self):
         return (self.id,
-                self.title,
-                self.author,
-                self.text,
+                convert(self.title,'zh-cn'),
+                convert(self.author,'zh-cn'),
+                convert(self.text,'zh-cn'),
                 self.love)
 
     def __str__(self):
@@ -51,16 +52,21 @@ def process_paragraphs(paragraphs):
 def findbrace(id, s):
     return re.sub(r'\n([）」』〗])', r'\1', s)
 
-def load_poem():
+def load_poem(type):
+    global empty_count
     def key(s):
         print(s)
         r = re.search(r'\.(\d+)\.', s)
         r = r.group(1)
         return int(r)
-
-    l = glob.glob('ci.song.*.json')
-    l.sort(key=key)
-    # l=['shijing.json']
+    if type =="Spoem":
+        l = glob.glob('ci.song.*.json')
+        l.sort(key=key)
+    elif type=='Tpoem':
+        l = glob.glob('poet.tang.*.json')
+        l.sort(key=key)
+    elif type=="song":
+        l=['shijing.json']
     lst = []
     id = 1
     for fn in l:
@@ -70,22 +76,26 @@ def load_poem():
             obj = json.load(f)
 
         for d in obj:
-            # title = d['title']
-            # author = d['chapter']+"·"+d['section']
-            # paras = d['content']
-
-            title = d['rhythmic']
-            author = d['author']
-            paras = d['paragraphs']
-
-            # title = d['title']
-            # author = d['author']
-            # paras = d['paragraphs']
-            text = process_paragraphs(paras)
-            text = findbrace(id, text)
+            try:
+                if type =="song":
+                        title = d['title']
+                        author = d['chapter']+"·"+d['section']
+                        paras = d['content']
+                elif type=='Spoem':
+                    title = d['rhythmic']
+                    author = d['author']
+                    paras = d['paragraphs']
+                elif type=="Tpoem":
+                    title = d['title']
+                    author = d['author']
+                    paras = d['paragraphs']
+                text = process_paragraphs(paras)
+                text = findbrace(id, text)
+            except:
+                empty_count += 1
+                continue
 
             if not text:
-                global empty_count
                 empty_count += 1
 
             p = Poem(id, title, author, text)
@@ -105,33 +115,33 @@ def create_db(db_name):
     db = sqlite3.connect(db_name, isolation_level=None)
 
     # 建表
-    create_t_sql = ('CREATE TABLE Tpoem('
+    create_t_sql = ('CREATE TABLE IF NOT EXISTS Tpoem('
            'id INTEGER PRIMARY KEY,'
            'title TEXT,'
            'author TEXT,'
            'content TEXT,'
            'love INTEGER);')
-    create_s_sql = ('CREATE TABLE Spoem('
+    create_s_sql = ('CREATE TABLE IF NOT EXISTS  Spoem('
            'id INTEGER PRIMARY KEY,'
            'title BLOB,'
            'author BLOB,'
            'content BLOB,'
            'love INTEGER);')
-    create_song_sql = ('CREATE TABLE song('
+    create_song_sql = ('CREATE TABLE IF NOT EXISTS song('
            'id INTEGER PRIMARY KEY,'
            'title TEXT,'
            'author TEXT,'
            'content TEXT,'
            'love  INTEGER);')
-    # db.execute(create_t_sql)
-    # db.execute(create_s_sql)
-    # db.execute(create_song_sql)
+    db.execute(create_t_sql)
+    db.execute(create_s_sql)
+    db.execute(create_song_sql)
 
     return db
 
 
-def save_close_db(lst, db):
-    sql = 'INSERT INTO Spoem VALUES(?,?,?,?,?);'
+def save_close_db(db, lst, mtype):
+    sql = 'INSERT INTO {0} VALUES(?,?,?,?,?);'.format(mtype)
     db.execute('BEGIN')
     for p in lst:
         db.execute(sql, p.get_tuple())
@@ -150,14 +160,16 @@ def main():
     #     os.remove(db_name)
     # except Exception as e:
     #     print(e)
-
-    # 诗
-    lst = load_poem()
-
     # 建数据库
     db = create_db(db_name)
+
+    # 诗
+    mtype='Tpoem'
+    # mtype='Spoem'
+    # mtype='song'
+    lst = load_poem(mtype)
     # 写数据库
-    save_close_db(lst, db)
+    save_close_db(db,lst,mtype)
 
     print('无内容的记录%d条' % empty_count)
 

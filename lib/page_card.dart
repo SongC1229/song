@@ -34,7 +34,7 @@ class _CardPageState extends State<CardPage>{
   @override
   void initState() {
     super.initState();
-    backimg=ExactAssetImage(GlobalConfig.backimg[widget.ptheme]);
+    backimg=ExactAssetImage(GConfig.backimg[widget.ptheme]);
     // 初始数据
     data=widget.initdata;
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -45,7 +45,7 @@ class _CardPageState extends State<CardPage>{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:GlobalConfig.appBackgroundColor,
+      backgroundColor:GConfig.appBackgroundColor,
       body: RefreshIndicator(
         key: _refreshKey,
         // child is typically ListView or CustomScrollView
@@ -65,7 +65,7 @@ class _CardPageState extends State<CardPage>{
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.normal,
                                 letterSpacing: 5.0,
-                                fontFamily: GlobalConfig.font
+                                fontFamily: GConfig.font
                                 ),
                             )
                           ],
@@ -82,7 +82,7 @@ class _CardPageState extends State<CardPage>{
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.normal,
                                     letterSpacing: 5.0,
-                                    fontFamily: GlobalConfig.font
+                                    fontFamily: GConfig.font
                                 ),
                               )
                             ],
@@ -112,8 +112,8 @@ class _CardPageState extends State<CardPage>{
               Container(
                 margin: const EdgeInsets.only(left:15.0,right: 15.0,bottom: 15.0,top: 10.0),
                 decoration: new BoxDecoration(
-                  border: new Border.all(width: 2.0, color: Colors.purple),
-                  borderRadius: new BorderRadius.all(new Radius.circular(20.0)),
+                  border: new Border.all(width: 1.0, color: Colors.purple),
+                  borderRadius: new BorderRadius.all(new Radius.circular(10.0)),
                   image: new DecorationImage(
                       image:backimg,
                       fit: BoxFit.cover
@@ -130,7 +130,7 @@ class _CardPageState extends State<CardPage>{
 
 
   Widget _buildpoem(){
-    if(GlobalConfig.backfromlove){
+    if(GConfig.backfromlove){
 //      print("重新确定");
     getData(widget.ptheme, data["id"]).then((resultdata) {
         if(resultdata!=null){
@@ -142,7 +142,7 @@ class _CardPageState extends State<CardPage>{
         }
       });
     if(widget.ptheme==3)
-      GlobalConfig.backfromlove=false;
+      GConfig.backfromlove=false;
     }
     return Column(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -172,7 +172,7 @@ class _CardPageState extends State<CardPage>{
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 3.0,
-                fontFamily: GlobalConfig.font
+                fontFamily: GConfig.font
             ),
           ),
           Padding(padding: EdgeInsets.only(top: 3.0),
@@ -183,7 +183,7 @@ class _CardPageState extends State<CardPage>{
                   fontSize: 18.0,
                   fontWeight: FontWeight.normal,
                   letterSpacing: 5.0,
-                  fontFamily: GlobalConfig.font
+                  fontFamily: GConfig.font
               ),
             ),
           ),
@@ -196,7 +196,7 @@ class _CardPageState extends State<CardPage>{
                   fontSize: 18.0,
                   height: 1.2,
                   fontWeight: FontWeight.normal,
-                  fontFamily: GlobalConfig.font
+                  fontFamily: GConfig.font
               ),
             )
             ,)

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-class GlobalConfig {
+
+
+class GConfig {
   static Color night=Colors.blueGrey;
-  static Color light=Color(0xFFD6D5B7);
+  static Color light=Color(0xFFB7D6CF);
   static bool dark = false;
   static ThemeData themeData = new ThemeData(primarySwatch:Colors.blue);
-  static Color appBackgroundColor = Color(0xFFD6D5B7);
+  static Color appBackgroundColor = Color(0xE593ABB2);
   static List<String> backimg=["asset/images/searchback.jpg",
                                 "asset/images/tang.jpg",
                                 "asset/images/song.jpg",
@@ -14,6 +16,7 @@ class GlobalConfig {
                                 "asset/images/yoona.jpg"
                               ];
   static String font="方正楷体";
+  static double fontSize=14;
   static List<String> fontnames=["方正楷体","方正准圆","安卓系统"];
   static List<String> poemcate = ['唐 诗', '宋 词', '诗 经', '搜 索'];
   static String motto="但愿人长久，千里共婵娟";
@@ -21,4 +24,7 @@ class GlobalConfig {
   static String temp1="";
   static String temp2="";
   static bool backfromlove=false;
+}
+Text Gtext(String text){
+  return Text(text, style: TextStyle(fontFamily:GConfig.font, fontSize: GConfig.fontSize));
 }

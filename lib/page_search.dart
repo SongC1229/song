@@ -79,43 +79,33 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
 
 
   List<DropdownMenuItem> getpoemcate(){
-    List<DropdownMenuItem> items = [];
-    DropdownMenuItem dropdownMenuItem1=new DropdownMenuItem(
-      child:new Text(" 唐 诗",style: TextStyle(fontFamily:GlobalConfig.font,)),
-      value: 1,
-    );
-    items.add(dropdownMenuItem1);
-    DropdownMenuItem dropdownMenuItem2=new DropdownMenuItem(
-      child:new Text(" 宋 词",style: TextStyle(fontFamily:GlobalConfig.font,)),
-      value: 2,
-    );
-    items.add(dropdownMenuItem2);
-    DropdownMenuItem dropdownMenuItem3=new DropdownMenuItem(
-      child:new Text(" 诗 经",style: TextStyle(fontFamily:GlobalConfig.font,)),
-      value: 3,
-    );
-    items.add(dropdownMenuItem3);
-    return items;
+    Map<String, int> poemcate ={
+      " 唐 诗":1,
+      " 宋 词":2,
+      " 诗 经":3
+    };
+    List<DropdownMenuItem> cate = [];
+    for (var key in poemcate.keys){
+      cate.add(DropdownMenuItem(
+          child: Gtext(key),
+          value: poemcate[key]));
+    }
+    return cate;
   }
 
   List<DropdownMenuItem> getcate(){
-    List<DropdownMenuItem> items = [];
-    DropdownMenuItem dropdownMenuItem1=new DropdownMenuItem(
-      child:new Text(" 标 题",style: TextStyle(fontFamily:GlobalConfig.font,)),
-      value: 1,
-    );
-    items.add(dropdownMenuItem1);
-    DropdownMenuItem dropdownMenuItem2=new DropdownMenuItem(
-      child:new Text(" 作者|章节",style: TextStyle(fontFamily:GlobalConfig.font,)),
-      value: 2,
-    );
-    items.add(dropdownMenuItem2);
-    DropdownMenuItem dropdownMenuItem3=new DropdownMenuItem(
-      child:new Text(" 内 容",style: TextStyle(fontFamily:GlobalConfig.font,)),
-      value: 3,
-    );
-    items.add(dropdownMenuItem3);
-    return items;
+    Map<String, int> search_type ={
+      " 标 题":1,
+      " 作者|章节":2,
+      " 内 容":3
+    };
+    List<DropdownMenuItem> cate = [];
+    for (var key in search_type.keys){
+      cate.add(DropdownMenuItem(
+          child: Gtext(key),
+          value: search_type[key]));
+    }
+    return cate;
   }
 
   void _search() {
@@ -142,18 +132,15 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
 
   @override
   Widget build(BuildContext context) {
-    ScrollController scrollController =
-        widget.controller
-            ?? PrimaryScrollController.of(context)
-            ?? ScrollController();
+    ScrollController scrollController =PrimaryScrollController.of(context);
 
 
     Widget stack= Stack(children: <Widget>[
       Container(
         margin: EdgeInsets.only(top: 105.0,left: 15.0,bottom: 5.0,right: 15.0),
         child:ListView(
+          controller: widget.controller,
           children: genList(),
-
         ),
       ),
       Column(
@@ -177,7 +164,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.normal,
-                      fontFamily: GlobalConfig.font
+                      fontFamily: GConfig.font
                   ),
                 ),
                 decoration: BoxDecoration(
@@ -266,8 +253,6 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                   ],
                 )
               ),
-
-
             ]
           )  ,
 
@@ -322,16 +307,10 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
 
 
   List<Widget> genList() {
-    if(data==null){
+    if(data==null||data.length==0){
       return <Widget> [Container()];
     }
-    if(data.length==0){
-      return <Widget> [Container(
-      )];
-    }
-    return data.map<Widget>((eachdata) {
-      return _buildresult(eachdata);
-    }).toList();
+    return data.map<Widget>((eachdata) => _buildresult(eachdata)).toList();
   }
 
   Widget _buildresult(Map eachdata) {
@@ -341,7 +320,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
             border: Border.all(width: 1.0, color: Colors.purple),
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
             image: DecorationImage(
-                image:ExactAssetImage(GlobalConfig.backimg[0]),
+                image:ExactAssetImage(GConfig.backimg[0]),
                 fit: BoxFit.cover
             ),
           ),
@@ -355,7 +334,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                           fontSize: 18.0,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1.0,
-                          fontFamily: GlobalConfig.font
+                          fontFamily: GConfig.font
                       ),
                     ),
                   ),
@@ -367,7 +346,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                         fontSize: 16.0,
                         fontWeight: FontWeight.normal,
                         letterSpacing: 2.0,
-                        fontFamily: GlobalConfig.font
+                        fontFamily: GConfig.font
                     ),
                   ),
                 ),

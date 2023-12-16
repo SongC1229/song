@@ -39,7 +39,7 @@ class _UpdateState extends State<Update> {
           child: new Container(
             decoration: new BoxDecoration(
               borderRadius: new BorderRadius.all(new Radius.circular(10.0)),
-              color: GlobalConfig.appBackgroundColor,
+              color: GConfig.appBackgroundColor,
             ),
             child:
             Column(
@@ -61,7 +61,7 @@ class _UpdateState extends State<Update> {
                               fontSize: 20.0,
                               fontWeight: FontWeight.normal,
                               letterSpacing: 5.0,
-                              fontFamily: GlobalConfig.font
+                              fontFamily: GConfig.font
                           ),
                         ),
                       ),
@@ -101,7 +101,7 @@ class _UpdateState extends State<Update> {
                             color: Colors.black,
                             fontSize: 16.0,
                             fontWeight: FontWeight.normal,
-                            fontFamily: GlobalConfig.font
+                            fontFamily: GConfig.font
                         ),
                       ),
                       Container(height:100,
@@ -122,7 +122,7 @@ class _UpdateState extends State<Update> {
                                     color: Colors.black,
                                     fontSize: 14.0,
                                     fontWeight: FontWeight.normal,
-                                    fontFamily: GlobalConfig.font,
+                                    fontFamily: GConfig.font,
                                 ),
                                 backgroundCursorColor: Colors.grey,
                             ),
@@ -133,7 +133,7 @@ class _UpdateState extends State<Update> {
                             color: Colors.black,
                             fontSize: 16.0,
                             fontWeight: FontWeight.normal,
-                            fontFamily: GlobalConfig.font
+                            fontFamily: GConfig.font
                         ),
                       ),
                       Container(height:25,margin:EdgeInsets.only(top: 3.0),color:Colors.white30,
@@ -148,7 +148,7 @@ class _UpdateState extends State<Update> {
                             color: Colors.black,
                             fontSize: 14.0,
                             fontWeight: FontWeight.normal,
-                            fontFamily: GlobalConfig.font
+                            fontFamily: GConfig.font
                             ),
                             backgroundCursorColor: Colors.grey,
                           ),
@@ -158,7 +158,7 @@ class _UpdateState extends State<Update> {
                           color: Colors.black,
                           fontSize: 16.0,
                           fontWeight: FontWeight.normal,
-                          fontFamily:GlobalConfig.font,
+                          fontFamily:GConfig.font,
                         ),
                       ),
                       Container(height:25,margin:EdgeInsets.only(top: 3.0),color:Colors.white30,
@@ -173,7 +173,7 @@ class _UpdateState extends State<Update> {
                                   color: Colors.black,
                                   fontSize: 14.0,
                                   fontWeight: FontWeight.normal,
-                                  fontFamily: GlobalConfig.font
+                                  fontFamily: GConfig.font
                               ),
                             backgroundCursorColor: Colors.grey,
                           ),
@@ -191,7 +191,7 @@ class _UpdateState extends State<Update> {
                             color: Colors.black,
                             fontSize: 16.0,
                             fontWeight: FontWeight.normal,
-                            fontFamily: GlobalConfig.font
+                            fontFamily: GConfig.font
                         ),
                       ),
                       onPressed: (){
@@ -208,7 +208,7 @@ class _UpdateState extends State<Update> {
                             color: Colors.black,
                             fontSize: 16.0,
                             fontWeight: FontWeight.normal,
-                            fontFamily: GlobalConfig.font
+                            fontFamily: GConfig.font
                         ),
                       ),
                       onPressed: (){

@@ -23,7 +23,7 @@ class Remove extends StatelessWidget{
           child: new Container(
             decoration: new BoxDecoration(
               borderRadius: new BorderRadius.all(new Radius.circular(10.0)),
-              color: GlobalConfig.appBackgroundColor,
+              color: GConfig.appBackgroundColor,
             ),
             child:
             Column(
@@ -45,7 +45,7 @@ class Remove extends StatelessWidget{
                               fontSize: 20.0,
                               fontWeight: FontWeight.normal,
                               letterSpacing: 5.0,
-                              fontFamily: GlobalConfig.font
+                              fontFamily: GConfig.font
                           ),
                         ),
                       ),
@@ -84,7 +84,7 @@ class Remove extends StatelessWidget{
                         fontSize: 16.0,
                         height: 1.2,
                         fontWeight: FontWeight.normal,
-                        fontFamily:GlobalConfig.font
+                        fontFamily:GConfig.font
                     ),
                     maxLines:6 ,
                     overflow: TextOverflow.clip,
@@ -99,7 +99,7 @@ class Remove extends StatelessWidget{
                             color: Colors.black,
                             fontSize: 16.0,
                             fontWeight: FontWeight.normal,
-                            fontFamily: GlobalConfig.font
+                            fontFamily: GConfig.font
                         ),
                       ),
                       onPressed: (){
@@ -125,7 +125,7 @@ class Remove extends StatelessWidget{
                             color: Colors.black,
                             fontSize: 16.0,
                             fontWeight: FontWeight.normal,
-                            fontFamily: GlobalConfig.font
+                            fontFamily: GConfig.font
                         ),
                       ),
                       onPressed: (){
