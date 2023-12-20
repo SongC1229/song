@@ -80,9 +80,9 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
 
   List<DropdownMenuItem> getpoemcate(){
     Map<String, int> poemcate ={
-      " 唐 诗":1,
-      " 宋 词":2,
-      " 诗 经":3
+      "唐 诗":1,
+      "宋 词":2,
+      "诗 经":3
     };
     List<DropdownMenuItem> cate = [];
     for (var key in poemcate.keys){
@@ -95,9 +95,9 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
 
   List<DropdownMenuItem> getcate(){
     Map<String, int> search_type ={
-      " 标 题":1,
-      " 作者|章节":2,
-      " 内 容":3
+      "标 题":1,
+      "作者|章节":2,
+      "内 容":3
     };
     List<DropdownMenuItem> cate = [];
     for (var key in search_type.keys){
@@ -137,7 +137,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
 
     Widget stack= Stack(children: <Widget>[
       Container(
-        margin: EdgeInsets.only(top: 105.0,left: 15.0,bottom: 5.0,right: 15.0),
+        margin: EdgeInsets.only(top: 110.0,left: 15.0,bottom: 5.0,right: 15.0),
         child:ListView(
           controller: widget.controller,
           children: genList(),
@@ -205,13 +205,12 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                                 ),
                         )
                       ),
-                      flex: 2,
+                      flex: 3,
                     ),
-
 
                     Expanded(
                       child: Container(
-                        margin: EdgeInsets.only(left: 5.0),
+                        margin: EdgeInsets.only(left: 10.0),
                         decoration: BoxDecoration(
                           border: Border.all(width: 1.0, color: Colors.white),
                           borderRadius: BorderRadius.all(Radius.circular(5.0)),
@@ -234,7 +233,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                             ),
                           )
                       ),
-                      flex: 2,
+                      flex: 3,
                     ),
                     Expanded(
                       child: Container(

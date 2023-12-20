@@ -193,7 +193,7 @@ class _CardPageState extends State<CardPage>{
               data["content"],
               style: TextStyle(
                   color: widget.color,
-                  fontSize: 18.0,
+                  fontSize: GConfig.fontSize,
                   height: 1.2,
                   fontWeight: FontWeight.normal,
                   fontFamily: GConfig.font

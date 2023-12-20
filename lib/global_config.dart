@@ -61,7 +61,7 @@ Container gDialogTitle(BuildContext context,String title,IconData icon){
                   Navigator.pop(context); //关闭对话框
                 },
                 tooltip: '关闭',
-                backgroundColor: Color(0x93ABB2E5),
+                backgroundColor: Colors.white70,
 
                 child: new Icon(Icons.close),
               ),

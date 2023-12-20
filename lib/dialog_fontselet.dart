@@ -11,7 +11,6 @@ class FontSelectDialog extends StatefulWidget {
 
 class _FontSelectDialogState extends State<FontSelectDialog> {
   int fontType = 0;
-  int fontSize = 0;
 
   void updateFontType(int v) {
     setState(() {
@@ -20,12 +19,6 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
     });
   }
 
-  void updateFontSize(int v) {
-    setState(() {
-      GConfig.fontSize = 14.0 + 3*v;
-      widget.refreshMain();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,17 +33,6 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
         fontType = 2;
         break;
     }
-    switch (GConfig.fontSize) {
-      case 14.0:
-        fontSize = 0;
-        break;
-      case 17.0:
-        fontSize = 1;
-        break;
-      case 20.0:
-        fontSize = 2;
-        break;
-    }
     return new Material(
       //创建透明层
       type: MaterialType.transparency, //透明类型
@@ -58,7 +40,7 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
         //保证控件居中效果
         child: new SizedBox(
           width: 280.0,
-          height: 450.0,
+          height: 320.0,
           child: new Container(
             decoration: new BoxDecoration(
               borderRadius: new BorderRadius.all(new Radius.circular(10.0)),
@@ -70,8 +52,9 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
               children: <Widget>[
                 gDialogTitle(context, " 字体", Icons.font_download),
                 new Container(
-                  height: 55,
-                  margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
+                  width: 250,
+                  height: 50,
+                  margin: EdgeInsets.fromLTRB(5.0, 10, 5.0, 0.0),
                   decoration: new BoxDecoration(
                     borderRadius:
                         new BorderRadius.all(new Radius.circular(8.0)),
@@ -81,10 +64,10 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
                       value: 0,
                       groupValue: fontType,
                       title: new Text(
-                        GConfig.fontnames[0] + "效果",
+                        GConfig.fontnames[0],
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 18.0,
+                            fontSize: GConfig.fontSize,
                             fontWeight: FontWeight.normal,
                             letterSpacing: 3.0,
                             fontFamily: GConfig.fontnames[0]),
@@ -94,8 +77,9 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
                       }),
                 ),
                 new Container(
-                  height: 55,
-                  margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
+                  width: 250,
+                  height: 50,
+                  margin: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 0.0),
                   decoration: new BoxDecoration(
                     borderRadius:
                         new BorderRadius.all(new Radius.circular(8.0)),
@@ -105,10 +89,10 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
                       value: 1,
                       groupValue: fontType,
                       title: new Text(
-                        GConfig.fontnames[1] + "效果",
+                        GConfig.fontnames[1],
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 18.0,
+                            fontSize: GConfig.fontSize,
                             fontWeight: FontWeight.normal,
                             letterSpacing: 3.0,
                             fontFamily: GConfig.fontnames[1]),
@@ -118,8 +102,9 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
                       }),
                 ),
                 new Container(
-                  height: 55,
-                  margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
+                  width: 250,
+                  height: 50,
+                  margin: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 0.0),
                   decoration: new BoxDecoration(
                     borderRadius:
                         new BorderRadius.all(new Radius.circular(8.0)),
@@ -129,10 +114,10 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
                       value: 2,
                       groupValue: fontType,
                       title: new Text(
-                        GConfig.fontnames[2] + "效果",
+                        GConfig.fontnames[2],
                         style: TextStyle(
                             color: Colors.black,
-                            fontSize: 18.0,
+                            fontSize: GConfig.fontSize,
                             fontWeight: FontWeight.normal,
                             letterSpacing: 3.0,
                             fontFamily: GConfig.fontnames[2]),
@@ -142,60 +127,55 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
                       }),
                 ),
                 new Container(
-                  height: 180,
-                  margin: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
+                  width: 250,
+                  height: 50,
+                  margin: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 0.0),
                   decoration: new BoxDecoration(
                     borderRadius:
                         new BorderRadius.all(new Radius.circular(8.0)),
                     color: Colors.lightBlue,
                   ),
-                  child:Column(
+                  child:
+                  Row(
                     children: [
-                      RadioListTile(
-                          value: 0,
-                          groupValue: fontSize,
-                          title: new Text(
-                            "字号小",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.normal,
-                                letterSpacing: 3.0,
-                                fontFamily: GConfig.font),
-                          ),
-                          onChanged: (T) {
-                            updateFontSize(T!);
-                          }),
-                      RadioListTile(
-                          value: 1,
-                          groupValue: fontSize,
-                          title: new Text(
-                            "字号中",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 17,
-                                fontWeight: FontWeight.normal,
-                                letterSpacing: 3.0,
-                                fontFamily: GConfig.font),
-                          ),
-                          onChanged: (T) {
-                            updateFontSize(T!);
-                          }),
-                      RadioListTile(
-                          value: 2,
-                          groupValue: fontSize,
-                          title: new Text(
-                            "字号大",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.normal,
-                                letterSpacing: 3.0,
-                                fontFamily: GConfig.font),
-                          ),
-                          onChanged: (T) {
-                            updateFontSize(T!);
-                          }),
+                      Text(
+                        "  字号",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                            letterSpacing: 3.0,
+                            fontFamily: GConfig.font),
+                      ),
+                      Slider(
+                        // 当前值
+                        value: GConfig.fontSize,
+                        // 拖动中
+                        onChanged: (fs) {
+                          setState(() {
+                            GConfig.fontSize= fs;
+                            widget.refreshMain();
+                          });
+                        },
+                        // 拖动开始
+                        onChangeStart: (value) {
+                          print("_MyHomePageState - build: onChangeStart $value");
+                        },
+                        // 拖动结束
+                        onChangeEnd: (value) {
+                          print("_MyHomePageState - build: onChangeEnd $value");
+                        },
+                        min: 14.0,
+                        max: 24.0,
+                        // label的数量，比如最小0、最大10、divisions是10，那么label的数量就是10
+                        divisions: 10,
+                        // 拖动时上方会显示当前值
+                        label: "${GConfig.fontSize}",
+                        // 激活的颜色
+                        activeColor: Colors.blue,
+                        // 未激活的颜色
+                        inactiveColor: Colors.white,
+                      ),
                     ],
                   )
                 ),
