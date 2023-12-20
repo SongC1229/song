@@ -73,7 +73,7 @@ class _CardPageState extends State<CardPage>{
                           ),
                         Padding(padding: EdgeInsets.only(left: 10.0),),
                       ElevatedButton (
-                            onPressed:stopspeech,
+                            onPressed:stopSpeech,
                             child: Row(children: <Widget>[
                               Icon(Icons.stop,size: 23.0),
                               Text("停止",

@@ -12,18 +12,22 @@ bool confexist=false;
 dynamic shidb;
 Map<String, dynamic> confjson ={};
 String docDir="uninit";
-const platform = const MethodChannel("sning.ttspeak");
 
 void speech(var data) async{
-  await platform.invokeMethod("speakpoem",data["title"]+"，"+data["author"]+"。"+data["content"]);
+  await GConfig.platform.invokeMethod("speakPoem",data["title"]+"，"+data["author"]+"。"+data["content"]);
 }
 
-void stopspeech() async{
-  await platform.invokeMethod("stopspeak");
+void stopSpeech() async{
+  await GConfig.platform.invokeMethod("stopSpeak");
 }
-
+void updateChannel(int chn) async{
+  print("切换声道 $chn");
+  await GConfig.platform.invokeMethod("updateChannel",chn);
+}
 Future updateconf() async{
   confjson["font"]=GConfig.font;
+  confjson["fontSize"]=GConfig.fontSize;
+  confjson["channel"]=GConfig.channel;
   confjson["dark"]=GConfig.dark;
   confjson["motto"]=GConfig.motto;
   confjson["name"]=GConfig.name;
@@ -51,6 +55,8 @@ void initconf( var refreshApp) async{
         GConfig.dark=confjson["dark"];
         GConfig.motto=confjson["motto"];
         GConfig.name=confjson["name"];
+        GConfig.fontSize=confjson["fontSize"];
+        GConfig.channel = confjson["channel"];
         GConfig.dark?GConfig.appBackgroundColor=GConfig.night:GConfig.appBackgroundColor=GConfig.light;
         refreshApp();
       });
@@ -65,6 +71,8 @@ void initconf( var refreshApp) async{
       GConfig.dark=confjson["dark"];
       GConfig.motto=confjson["motto"];
       GConfig.name=confjson["name"];
+      GConfig.fontSize=confjson["fontSize"];
+      GConfig.channel = confjson["channel"];
       GConfig.dark?GConfig.appBackgroundColor=GConfig.night:GConfig.appBackgroundColor=GConfig.light;
       refreshApp();
     });

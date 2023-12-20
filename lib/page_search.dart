@@ -93,7 +93,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
     return cate;
   }
 
-  List<DropdownMenuItem> getcate(){
+  List<DropdownMenuItem> getCate(){
     Map<String, int> search_type ={
       "标 题":1,
       "作者|章节":2,
@@ -207,7 +207,6 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                       ),
                       flex: 3,
                     ),
-
                     Expanded(
                       child: Container(
                         margin: EdgeInsets.only(left: 10.0),
@@ -219,7 +218,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                         child:
                           DropdownButtonHideUnderline(
                             child:DropdownButton(
-                              items: getcate(),
+                              items: getCate(),
                               value: value2,//下拉菜单选择完之后显示给用户的值
                               onChanged: (T){//下拉菜单item点击之后的回调
                                 setState(() {
@@ -374,7 +373,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                     new IconButton(
                         icon: Icon(Icons.stop),
                         onPressed: (){
-                          stopspeech();
+                          stopSpeech();
                         },
                         tooltip: '停止',
                       ),

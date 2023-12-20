@@ -185,7 +185,7 @@ class _LoveListpageState extends State<LoveListpage> with SingleTickerProviderSt
               new IconButton(
                 icon: Icon(Icons.stop),
                 onPressed: (){
-                  stopspeech();
+                  stopSpeech();
                 },
                 tooltip: '朗读',
               ),

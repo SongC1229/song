@@ -33,19 +33,23 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
                  (call, result) -> {
 //                通过methodCall可以获取参数和方法名  执行对应的平台业务逻辑即可
                    switch (call.method) {
-                     case "speakpoem":
-                       setSpeakerphoneOn(false);
+                     case "speakPoem":
                        if(support)
                          tts.speak(call.arguments.toString(), TextToSpeech.QUEUE_FLUSH, null,null);
                        else {
                          Toast.makeText(this,"无语音引擎",Toast.LENGTH_SHORT).show();
                        }
                        break;
-                     case "stopspeak":
+                     case "stopSpeak":
                        if(support)
                          tts.stop();
                        break;
                      case "continuespeak":break;
+                     case "updateChannel":
+//                       setSpeakerphoneOn(call.arguments.toInt());
+                       Toast.makeText(this, String.format("切换音道:", call.arguments), Toast.LENGTH_SHORT).show();
+
+                       break;
                    }
                  }
      );
@@ -71,6 +75,26 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
         setForceUse.invoke(null, 0, 0);
         audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
       }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  private void setChannel(int channel) {
+    Toast.makeText(this, String.format("切换音道:%d", channel), Toast.LENGTH_SHORT).show();
+    //播放音频流类型
+    setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
+    try {
+      //播放音频流类型
+      Class audioSystemClass = Class.forName("android.media.AudioSystem");
+      Method setForceUse = audioSystemClass.getMethod("setForceUse", int.class, int.class);
+      AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+      audioManager.setMicrophoneMute(false);
+      audioManager.setSpeakerphoneOn(true);
+      audioManager.setMode(AudioManager.MODE_NORMAL);
+      // setForceUse.invoke(null, 1, 1);
+      setForceUse.invoke(null, 0, 0);
+
     } catch (Exception e) {
       e.printStackTrace();
     }

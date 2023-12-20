@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-
+import 'package:flutter/services.dart';
 
 class GConfig {
   static Color night=Colors.blueGrey;
@@ -17,13 +16,15 @@ class GConfig {
                               ];
   static String font="方正楷体";
   static double fontSize=14;
-  static List<String> fontnames=["方正楷体","方正准圆","安卓系统"];
+  static const List<String> fontnames=["方正楷体","方正准圆","安卓系统"];
   static List<String> poemcate = ['唐 诗', '宋 词', '诗 经', '搜 索'];
   static String motto="但愿人长久，千里共婵娟";
   static String name="Yoona";
   static String temp1="";
   static String temp2="";
   static bool backfromlove=false;
+  static int channel=0;
+  static const platform = const MethodChannel("sning.ttspeak");
 }
 Text gText(String text){
   return Text(text, style: TextStyle(fontFamily:GConfig.font, fontSize: GConfig.fontSize));
