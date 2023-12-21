@@ -22,7 +22,7 @@ void stopSpeech() async{
 }
 void updateChannel(int chn) async{
   print("切换声道 $chn");
-  await GConfig.platform.invokeMethod("updateChannel",chn);
+  await GConfig.platform.invokeMethod("updateChannel",chn.toString());
 }
 Future updateconf() async{
   confjson["font"]=GConfig.font;

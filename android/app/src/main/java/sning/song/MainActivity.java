@@ -15,7 +15,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import android.content.Context;
 import android.os.Bundle;
-//import android.media.AudioSystem;
 public class MainActivity extends FlutterActivity implements OnInitListener {
 
   private TextToSpeech tts;
@@ -46,9 +45,9 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
                        break;
                      case "continuespeak":break;
                      case "updateChannel":
-//                       setSpeakerphoneOn(call.arguments.toInt());
-                       Toast.makeText(this, String.format("切换音道:", call.arguments), Toast.LENGTH_SHORT).show();
-
+                       setSpeakerphoneOn(flase);
+                       setChannel(Integer.parseInt(call.arguments.toString()));
+                       System.out.println(String.format("An切换音道: %s", call.arguments.toString()));
                        break;
                    }
                  }
@@ -82,18 +81,18 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
 
   private void setChannel(int channel) {
     Toast.makeText(this, String.format("切换音道:%d", channel), Toast.LENGTH_SHORT).show();
-    //播放音频流类型
-    setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
     try {
+      //播放音频流类型
+      setVolumeControlStream(AudioManager.STREAM_MUSIC);
       //播放音频流类型
       Class audioSystemClass = Class.forName("android.media.AudioSystem");
       Method setForceUse = audioSystemClass.getMethod("setForceUse", int.class, int.class);
       AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
-      audioManager.setMicrophoneMute(false);
-      audioManager.setSpeakerphoneOn(true);
+//      audioManager.setMicrophoneMute(false);
+//      audioManager.setSpeakerphoneOn(true);
       audioManager.setMode(AudioManager.MODE_NORMAL);
       // setForceUse.invoke(null, 1, 1);
-      setForceUse.invoke(null, 0, 0);
+      setForceUse.invoke(null, 1, 1);
 
     } catch (Exception e) {
       e.printStackTrace();
