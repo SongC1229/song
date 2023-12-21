@@ -63,7 +63,7 @@ def load_poem(type):
         l = glob.glob('ci.song.*.json')
         l.sort(key=key)
     elif type=='Tpoem':
-        l = glob.glob('poet.tang.*.json')
+        l = glob.glob('poet.song.*.json')
         l.sort(key=key)
     elif type=="song":
         l=['shijing.json']

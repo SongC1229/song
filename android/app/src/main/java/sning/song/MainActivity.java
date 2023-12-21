@@ -8,6 +8,8 @@ import io.flutter.plugins.GeneratedPluginRegistrant;
 
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
+import android.speech.tts.UtteranceProgressListener;
+
 import android.widget.Toast;
 import android.media.AudioManager;
 import java.util.Locale;
@@ -17,6 +19,7 @@ import android.content.Context;
 import android.os.Bundle;
 public class MainActivity extends FlutterActivity implements OnInitListener {
 
+  private AudioManager mAM;
   private TextToSpeech tts;
   private static final String CHANNEL = "sning.ttspeak";
   private boolean support=false;
@@ -45,38 +48,12 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
                        break;
                      case "continuespeak":break;
                      case "updateChannel":
-                       setSpeakerphoneOn(flase);
                        setChannel(Integer.parseInt(call.arguments.toString()));
                        System.out.println(String.format("An切换音道: %s", call.arguments.toString()));
                        break;
                    }
                  }
      );
-  }
-
-  private void setSpeakerphoneOn(boolean on) {
-    try {
-//播放音频流类型
-      setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
-//获得当前类
-      Class audioSystemClass = Class.forName("android.media.AudioSystem");
-//得到这个方法
-      Method setForceUse = audioSystemClass.getMethod("setForceUse", int.class, int.class);
-      AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
-      if (on) {
-        audioManager.setMicrophoneMute(false);
-        audioManager.setSpeakerphoneOn(true);
-        audioManager.setMode(AudioManager.MODE_NORMAL);
-// setForceUse.invoke(null, 1, 1);
-      } else {
-        audioManager.setSpeakerphoneOn(false);
-        audioManager.setMode(AudioManager.MODE_NORMAL);
-        setForceUse.invoke(null, 0, 0);
-        audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
 
   private void setChannel(int channel) {
@@ -104,6 +81,7 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
     super.onCreate(savedInstanceState);
     //初始化语音。这是一个异步操作。初始化完成后调用oninitListener(第二个参数)。
     tts = new TextToSpeech(this, this);
+    this.mAM = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
   }
   @Override
   public void onInit(int status) {
@@ -117,14 +95,38 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
       tts.setSpeechRate(0.95f);
       support=true;
 //      Toast.makeText(this,"支持语音",Toast.LENGTH_SHORT).show();
+      tts.setOnUtteranceProgressListener(new UtteranceProgressListener() { // from class: com.rcx.easytouch.SpeakUtil.1.1
+                                  @Override // android.speech.tts.UtteranceProgressListener
+                                  public void onError(String str) {
+                                  }
+
+                                  @Override // android.speech.tts.UtteranceProgressListener
+                                  public void onStart(String str) {
+                                    requestFocus();
+                                  }
+
+                                  @Override // android.speech.tts.UtteranceProgressListener
+                                  public void onDone(String str) {
+                                    abandonFocus();
+                                  }
+                              });
     }
   }
 
   @Override
   protected void onDestroy() {
-    if (tts != null)
-      tts.shutdown();
+    if (tts != null){
+      abandonFocus();
+      this.tts.stop();
+      this.tts.shutdown();
+    }
     super.onDestroy();
   }
+  private boolean requestFocus() {
+      return 1 == this.mAM.requestAudioFocus(null, 13, 2);
+  }
 
+  private boolean abandonFocus() {
+      return 1 == this.mAM.abandonAudioFocus(null);
+  }
 }
