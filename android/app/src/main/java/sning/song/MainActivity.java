@@ -13,13 +13,11 @@ import android.speech.tts.UtteranceProgressListener;
 import android.widget.Toast;
 import android.media.AudioManager;
 import java.util.Locale;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import android.content.Context;
 import android.os.Bundle;
 public class MainActivity extends FlutterActivity implements OnInitListener {
 
-  private AudioManager mAM;
+  private AudioManager aM;
   private TextToSpeech tts;
   private static final String CHANNEL = "sning.ttspeak";
   private boolean support=false;
@@ -51,7 +49,6 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
                      case "continuespeak":break;
                      case "updateChannel":
                        setChannel(Integer.parseInt(call.arguments.toString()));
-                       System.out.println(String.format("An切换音道: %s", call.arguments.toString()));
                        break;
                    }
                  }
@@ -63,7 +60,7 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
     super.onCreate(savedInstanceState);
     //初始化语音。这是一个异步操作。初始化完成后调用oninitListener(第二个参数)。
     tts = new TextToSpeech(this, this);
-    this.mAM = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+    aM = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
   }
   @Override
   public void onInit(int status) {
@@ -84,7 +81,7 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
 
                                   @Override // android.speech.tts.UtteranceProgressListener
                                   public void onStart(String str) {
-                                    requestFocus();
+                                    requestFocus(13, 2);
                                   }
 
                                   @Override // android.speech.tts.UtteranceProgressListener
@@ -101,36 +98,28 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
   protected void onDestroy() {
     if (tts != null){
       abandonFocus();
-      this.tts.stop();
-      this.tts.shutdown();
+      tts.stop();
+      tts.shutdown();
     }
     super.onDestroy();
   }
-  public boolean requestFocus() {
-      return 1 == this.mAM.requestAudioFocus(null, 13, 2);
+
+  public void requestFocus(int streamType, int durationHint) {
+    aM.requestAudioFocus(null, streamType, durationHint);
   }
 
-  public boolean abandonFocus() {
-      return 1 == this.mAM.abandonAudioFocus(null);
+  public void abandonFocus() {
+    aM.abandonAudioFocus(null);
   }
 
-  private void setChannel(int channel) {
-    Toast.makeText(this, String.format("切换音道:%d", channel), Toast.LENGTH_SHORT).show();
-    try {
-      //播放音频流类型
-      setVolumeControlStream(AudioManager.STREAM_MUSIC);
-      //播放音频流类型
-      Class audioSystemClass = Class.forName("android.media.AudioSystem");
-      Method setForceUse = audioSystemClass.getMethod("setForceUse", int.class, int.class);
-      AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
-//      audioManager.setMicrophoneMute(false);
-//      audioManager.setSpeakerphoneOn(true);
-      audioManager.setMode(AudioManager.MODE_NORMAL);
-      // setForceUse.invoke(null, 1, 1);
-      setForceUse.invoke(null, 1, 1);
-
-    } catch (Exception e) {
-      e.printStackTrace();
+  public void setChannel(int channel){
+    Toast.makeText(this,String.format("切换声道 %d",channel),Toast.LENGTH_SHORT).show();
+    switch(channel){
+      case 0:
+        abandonFocus();
+        break;
+      case 13:
+        requestFocus(13, 2);
     }
   }
 }
