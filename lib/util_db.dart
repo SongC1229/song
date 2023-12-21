@@ -89,8 +89,8 @@ void initPoem() async{
   //数据库不存在就拷贝，存在就加载
   if(!dbexist){
     Fluttertoast.showToast(
-      msg: "拷贝数据中...\n下拉以刷新",
-      toastLength: Toast.LENGTH_LONG,
+      msg: "拷贝数据中...\n下拉刷新",
+      toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
     );
 //    print("Creating new copy from asset");

@@ -94,8 +94,8 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
                         onChangeEnd: (value) {
                           // print("_MyHomePageState - build: onChangeEnd $value");
                         },
-                        min: 14.0,
-                        max: 24.0,
+                        min: 16.0,
+                        max: 26.0,
                         // label的数量，比如最小0、最大10、divisions是10，那么label的数量就是10
                         divisions: 10,
                         // 拖动时上方会显示当前值

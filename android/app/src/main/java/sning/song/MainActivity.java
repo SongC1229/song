@@ -23,6 +23,7 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
   private TextToSpeech tts;
   private static final String CHANNEL = "sning.ttspeak";
   private boolean support=false;
+  private Bundle params = new Bundle();
 //   if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {//API>21,设置状态栏颜色透明
 //      getWindow().setStatusBarColor(0);
 //    }
@@ -36,8 +37,9 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
 //                通过methodCall可以获取参数和方法名  执行对应的平台业务逻辑即可
                    switch (call.method) {
                      case "speakPoem":
-                       if(support)
-                         tts.speak(call.arguments.toString(), TextToSpeech.QUEUE_FLUSH, null,null);
+                       if(support){
+                         tts.speak(call.arguments.toString(), TextToSpeech.QUEUE_FLUSH,params, params.getString("utteranceId"));
+                       }
                        else {
                          Toast.makeText(this,"无语音引擎",Toast.LENGTH_SHORT).show();
                        }
@@ -54,26 +56,6 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
                    }
                  }
      );
-  }
-
-  private void setChannel(int channel) {
-    Toast.makeText(this, String.format("切换音道:%d", channel), Toast.LENGTH_SHORT).show();
-    try {
-      //播放音频流类型
-      setVolumeControlStream(AudioManager.STREAM_MUSIC);
-      //播放音频流类型
-      Class audioSystemClass = Class.forName("android.media.AudioSystem");
-      Method setForceUse = audioSystemClass.getMethod("setForceUse", int.class, int.class);
-      AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
-//      audioManager.setMicrophoneMute(false);
-//      audioManager.setSpeakerphoneOn(true);
-      audioManager.setMode(AudioManager.MODE_NORMAL);
-      // setForceUse.invoke(null, 1, 1);
-      setForceUse.invoke(null, 1, 1);
-
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
 
   @Override
@@ -94,7 +76,7 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
       //设置语速
       tts.setSpeechRate(0.95f);
       support=true;
-//      Toast.makeText(this,"支持语音",Toast.LENGTH_SHORT).show();
+      Toast.makeText(this,"支持语音",Toast.LENGTH_SHORT).show();
       tts.setOnUtteranceProgressListener(new UtteranceProgressListener() { // from class: com.rcx.easytouch.SpeakUtil.1.1
                                   @Override // android.speech.tts.UtteranceProgressListener
                                   public void onError(String str) {
@@ -110,6 +92,8 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
                                     abandonFocus();
                                   }
                               });
+      params.putString("utteranceId", "utterance");
+      params.putInt("streamType", 13);
     }
   }
 
@@ -122,11 +106,31 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
     }
     super.onDestroy();
   }
-  private boolean requestFocus() {
+  public boolean requestFocus() {
       return 1 == this.mAM.requestAudioFocus(null, 13, 2);
   }
 
-  private boolean abandonFocus() {
+  public boolean abandonFocus() {
       return 1 == this.mAM.abandonAudioFocus(null);
+  }
+
+  private void setChannel(int channel) {
+    Toast.makeText(this, String.format("切换音道:%d", channel), Toast.LENGTH_SHORT).show();
+    try {
+      //播放音频流类型
+      setVolumeControlStream(AudioManager.STREAM_MUSIC);
+      //播放音频流类型
+      Class audioSystemClass = Class.forName("android.media.AudioSystem");
+      Method setForceUse = audioSystemClass.getMethod("setForceUse", int.class, int.class);
+      AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+//      audioManager.setMicrophoneMute(false);
+//      audioManager.setSpeakerphoneOn(true);
+      audioManager.setMode(AudioManager.MODE_NORMAL);
+      // setForceUse.invoke(null, 1, 1);
+      setForceUse.invoke(null, 1, 1);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 }
