@@ -63,7 +63,6 @@ class _FontSelectDialogState extends State<FontSelectDialog> {
                 gDialogTitle(context, " 字体", Icons.font_download),
                 genFontSelect(GConfig.fontnames[0]),
                 genFontSelect(GConfig.fontnames[1]),
-                genFontSelect(GConfig.fontnames[2]),
                 new Container(
                   width: 280,
                   height: 50,
