@@ -165,42 +165,14 @@ class _CardPageState extends State<CardPage>{
               ),
             ),
           ),
-          Text(
-            data["title"],
-            style: TextStyle(
-                color: widget.color,
-                fontSize: 20.0,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 3.0,
-                fontFamily: GConfig.font
-            ),
-          ),
+          gText(data["title"], color: widget.color,sizeAdjust:4, fontWeight: FontWeight.bold),
           Padding(padding: EdgeInsets.only(top: 3.0),
-            child:Text(
-              data["author"],
-              style: TextStyle(
-                  color: widget.color,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.normal,
-                  letterSpacing: 5.0,
-                  fontFamily: GConfig.font
-              ),
-            ),
+            child:gText(data["author"],color: widget.color,sizeAdjust:-2,fontWeight: FontWeight.w200)
           ),
           Padding(
             padding: EdgeInsets.only(right: 0.0,left: 10.0,bottom: 20.0,top: 4.0),
-            child:Text(
-              data["content"],
-              style: TextStyle(
-                  color: widget.color,
-                  fontSize: GConfig.fontSize,
-                  height: 1.2,
-                  fontWeight: FontWeight.normal,
-                  fontFamily: GConfig.font
-              ),
+            child:gText(data["content"], color: widget.color),
             )
-            ,)
-
         ]
     );
   }

@@ -26,8 +26,13 @@ class GConfig {
   static int channel=0;
   static const platform = const MethodChannel("sning.ttspeak");
 }
-Text gText(String text){
-  return Text(text, style: TextStyle(fontFamily:GConfig.font, fontSize: GConfig.fontSize));
+Text gText(String text, {double? sizeAdjust, Color? color, FontWeight? fontWeight}){
+  FontWeight fw = fontWeight==null? FontWeight.normal: fontWeight;
+  double fs = sizeAdjust==null? GConfig.fontSize: GConfig.fontSize + sizeAdjust;
+  if(color!= null)
+    return Text(text, style: TextStyle(fontFamily:GConfig.font,color:color, fontSize: fs, fontWeight:fw));
+  else
+    return Text(text, style: TextStyle(fontFamily:GConfig.font, fontSize: fs,fontWeight: fw));
 }
 
 Container gDialogTitle(BuildContext context,String title,IconData icon){

@@ -325,28 +325,10 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
           child: Column(
               children: <Widget>[
                 Padding(padding: EdgeInsets.only(left:5.0,bottom:3.0,top: 5.0),
-                    child:Text(
-                      eachdata["title"]+"·"+eachdata["author"],
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.0,
-                          fontFamily: GConfig.font
-                      ),
-                    ),
+                    child:gText(eachdata["title"]+"·"+eachdata["author"],sizeAdjust:2, fontWeight:FontWeight.bold),
                   ),
                 Padding(padding: EdgeInsets.only(left:5.0,top: 3.0),
-                  child:Text(
-                    eachdata["content"],
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.normal,
-                        letterSpacing: 2.0,
-                        fontFamily: GConfig.font
-                    ),
-                  ),
+                  child:gText(eachdata["content"]),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
