@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'util_db.dart';
@@ -40,16 +39,16 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
   }
 
   List<DropdownMenuItem> getCate(){
-    Map<String, int> search_type ={
+    Map<String, int> searchType ={
       "标 题":1,
       "作者|章节":2,
       "内 容":3
     };
     List<DropdownMenuItem> cate = [];
-    for (var key in search_type.keys){
+    for (var key in searchType.keys){
       cate.add(DropdownMenuItem(
           child: gText(key),
-          value: search_type[key]));
+          value: searchType[key]));
     }
     return cate;
   }
@@ -238,7 +237,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     new IconButton(
-                      icon: Icon(Icons.favorite,color: eachdata["love"]==0?Color(0xFFB0B0B0):Colors.red,),
+                      icon: Icon(Icons.favorite,color: eachdata["love"]==0?Colors.white70:Colors.redAccent,),
                         onPressed: () {
                           var temp;
                           eachdata["love"]==0?temp=1:temp=0;
@@ -249,28 +248,28 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                       tooltip: '收藏',
                     ),
                     new IconButton(
-                        icon: Icon(Icons.volume_up),
+                        icon: Icon(Icons.music_note_outlined,color: Colors.lightBlueAccent,),
                         onPressed: (){
                           speech(eachdata);
                         },
                         tooltip: '朗读',
                       ),
                     new IconButton(
-                        icon: Icon(Icons.stop),
+                        icon: Icon(Icons.music_off_outlined,color: Colors.lightBlueAccent),
                         onPressed: (){
                           stopSpeech();
                         },
                         tooltip: '停止',
                       ),
                     new IconButton(
-                        icon: Icon(Icons.delete_outline),
+                        icon: Icon(Icons.delete_forever,color: Colors.lightBlueAccent),
                         onPressed: (){
                           showDeleteDialog(context,eachdata["id"],eachdata["title"],eachdata["author"]);
                         },
                         tooltip: '删除',
                       ),
                     new IconButton(
-                      icon: Icon(Icons.create),
+                      icon: Icon(Icons.edit,color: Colors.lightBlueAccent),
                       onPressed: (){
                         showUpdateDialog(context,eachdata["id"],eachdata["title"],eachdata["author"],eachdata["content"]);
                       },
