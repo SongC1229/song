@@ -1,1 +1,1 @@
-flutter build apk --obfuscate --split-debug-info=debugInfo --target-platform android-arm,android-arm64 --split-per-abi
+flutter build apk --obfuscate --split-debug-info=/tmp --target-platform android-arm,android-arm64 --split-per-abi

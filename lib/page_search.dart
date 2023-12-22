@@ -6,74 +6,20 @@ import 'global_config.dart';
 import 'dialog_remove.dart';
 import 'dialog_update.dart';
 class SearchPage extends StatefulWidget {
-  SearchPage({
-    this.velocity = 10,
-  });
-
-
-  final ScrollController controller=ScrollController();
-
-  /// Critical value that determine to show [QuickScrollbar].
-  /// If the scroll delta offset greater than [velocity], the
-  /// quick scrollbar will show.
-  final int velocity;
-
   @override
   _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateMixin{
 
-  double _offsetTop = 105.0;
-  double _barHeight = 30.0;
-  // Animation controller for show/hide bar .
-  late AnimationController _animationController;
-  late Animation<double> _animation;
-  late Timer _timer;
-
   @override
   void initState() {
     super.initState();
-    _animationController =
-    new AnimationController(vsync: this, duration: Duration(milliseconds: 200));
-    _animation = Tween(begin: 1.0, end: 0.0).animate(_animationController);
-    _animationController.value = 1.0;
-    _timer = new Timer(Duration(seconds: 1), () {
-      _animationController.animateTo(1.0);
-      _animationController.forward();
-    });
   }
 
-  void _fadeBar() {
-    if(_animationController.value==1.0) return;
-    _timer?.cancel();
-    _timer = new Timer(Duration(seconds: 1), () {
-      _animationController.animateTo(1.0);
-      _animationController.forward();
-    });
-  }
-
-  bool _handleNotification(ScrollNotification notification) {
-    if (notification is ScrollUpdateNotification) {
-      if (notification.scrollDelta!.abs() > widget.velocity &&
-          notification.metrics.maxScrollExtent != double.infinity) {
-        _animationController.value = 0.0;
-      }
-    }
-    setState(() {
-      double total = notification.metrics.extentBefore +
-          notification.metrics.extentAfter;
-      _offsetTop = notification.metrics.extentBefore / total *
-          (notification.metrics.extentInside - _barHeight)+105;
-      _fadeBar();
-    });
-    return true;
-  }
 
   @override
   void dispose() {
-    _animationController.dispose();
-    _timer?.cancel();
     super.dispose();
   }
 
@@ -129,18 +75,19 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
   var value2=1;
   var key="";
   var data;
-
+  final ScrollController _firstController = ScrollController();
   @override
   Widget build(BuildContext context) {
-    ScrollController scrollController =PrimaryScrollController.of(context);
-
-
     Widget stack= Stack(children: <Widget>[
       Container(
         margin: EdgeInsets.only(top: 110.0,left: 15.0,bottom: 5.0,right: 15.0),
-        child:ListView(
-          controller: widget.controller,
-          children: genList(),
+        child:Scrollbar(
+          thumbVisibility: true,
+          controller: _firstController,
+          child:ListView(
+            controller: _firstController,
+            children: genList(),
+          ),
         ),
       ),
       Column(
@@ -253,54 +200,10 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
               ),
             ]
           )  ,
-
-
-      Positioned(
-          top: _offsetTop,
-          right: 0.0,
-          child: GestureDetector(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 3.0),
-              child: FadeTransition(
-                child: Material(
-                  color: Color(0xffe8e8e8),
-                  elevation: .8,
-                  child: SizedBox(
-                      height: _barHeight,
-                      width: 20.0,
-                      child: Icon(
-                        Icons.unfold_more,
-                        color: Colors.grey[600],
-                        size: 20.0,
-                      )
-                  ),
-                ),
-                opacity: _animation,
-              ),
-            ),
-            onVerticalDragStart: (DragStartDetails details) {
-              _timer?.cancel();
-            },
-            onVerticalDragUpdate: (DragUpdateDetails details) {
-              var position = scrollController.position;
-
-              double pixels = (position.extentBefore + position.extentAfter) *details.delta.dy / (position.extentInside - _barHeight);
-              pixels += position.pixels;
-              scrollController.jumpTo(pixels.clamp(0.0, position.maxScrollExtent));
-            },
-            onVerticalDragEnd: (details) {
-              _fadeBar();
-            },
-          )
-      ),
-
       ]
     );
 
-    return NotificationListener<ScrollNotification>(
-      onNotification: _handleNotification,
-      child: stack,
-    );
+    return stack;
   }
 
 
