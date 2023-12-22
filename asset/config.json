@@ -1,5 +1,7 @@
 {
     "font":"方正楷体",
+    "fontSize":18,
+    "channel":0,
     "dark":false,
     "backimg": [
       "asset/images/searchback.jpg",

@@ -15,7 +15,7 @@ class GConfig {
                                 "asset/images/yoona.jpg"
                               ];
   static String font="方正楷体";
-  static double fontSize=16;
+  static double fontSize=18;
   static const List<String> fontnames=["方正楷体","安卓系统"];
   static List<String> poemcate = ['唐 诗', '宋 词', '诗 经', '搜 索'];
   static String motto="但愿人长久，千里共婵娟";
