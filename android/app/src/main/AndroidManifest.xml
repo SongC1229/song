@@ -13,6 +13,7 @@
          additional functionality it is fine to subclass or reimplement
          FlutterApplication and put your custom class here. -->
     <application
+        android:extractNativeLibs="true"
         android:name="${applicationName}"
         android:label="yezi"
         android:icon="@mipmap/yezi">
@@ -43,7 +44,7 @@
 
     </application>
     <uses-sdk
-        android:minSdkVersion="23"
-        android:targetSdkVersion="27" />
+        android:minSdkVersion="28"
+        android:targetSdkVersion="30" />
 
 </manifest>

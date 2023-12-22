@@ -103,6 +103,9 @@ public class MainActivity extends FlutterActivity implements OnInitListener {
     }
     super.onDestroy();
   }
+  public void reqFocus(int streamType, int durationHint) {
+//    aM.requestAudioFocus(null, streamType, durationHint);
+  }
 
   public void requestFocus(int streamType, int durationHint) {
     aM.requestAudioFocus(null, streamType, durationHint);
