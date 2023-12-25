@@ -21,14 +21,14 @@ class _RecordState extends State<RecordPage> {
 
 
   FlutterSoundPlayer player = FlutterSoundPlayer();
-  late StreamSubscription _playerSubscription;
+  StreamSubscription? _playerSubscription;
 
   bool _isRecording = false;
   bool _isPlaying = false;
   Timer? _timer;
   int _seconds = 0;
   FlutterSoundRecorder? _recorder;
-  String? _filePath;
+  late String _filePath;
   String? tempFile;
   int _curPlayId=0;
   int _curRecordId=0;
@@ -44,7 +44,7 @@ class _RecordState extends State<RecordPage> {
   initPlayer() async {
     Directory? appDocDir = await getApplicationDocumentsDirectory();
     _filePath = '${appDocDir.path}/recording_';
-    tempFile = _filePath! + "temp" + ".aac";
+    tempFile = _filePath + "temp" + ".aac";
 
     await player.closePlayer();
     await player.openPlayer();
@@ -74,10 +74,10 @@ class _RecordState extends State<RecordPage> {
 
   ///开始播放，这里做了一个播放状态的回调
   void startPlayer(int index) async {
-    String _currentFile = _filePath! + index.toString() + '.aac';
+    String _currentFile = _filePath + index.toString() + '.aac';
     try {
       //判断文件是否存在
-      if (await _fileExists(_currentFile!)) {
+      if (await _fileExists(_currentFile)) {
         print("play state: " + player.isPlaying.toString());
         if (player.isPlaying) {
           player.stopPlayer();
@@ -133,7 +133,7 @@ class _RecordState extends State<RecordPage> {
   /// 取消播放监听
   void cancelPlayerSubscriptions() {
     if (_playerSubscription != null) {
-      _playerSubscription!.cancel();
+      _playerSubscription?.cancel();
     }
   }
 
@@ -281,11 +281,11 @@ class _RecordState extends State<RecordPage> {
     // 获取外部存储目录路径
     // Directory? externalDir = await getExternalStorageDirectory();
     // String targetPath = '${externalDir!.path}/recording.aac';
-    String _currentFile = _filePath! + index.toString() + '.aac';
+    String _currentFile = _filePath + index.toString() + '.aac';
     try {
       // 复制录音文件到外部存储目录
-      File(tempFile!).copySync(_currentFile!);
-      printInfo("保存至:" + _currentFile!);
+      File(tempFile!).copySync(_currentFile);
+      printInfo("保存至:" + _currentFile);
     } catch (e) {
       print('保存录音文件失败: $e');
       return null;
@@ -485,7 +485,16 @@ class _RecordState extends State<RecordPage> {
                     children: genTTSList(10)
                   )
               ),
-              flex: 4,
+              flex: 8,
+          ),
+          Expanded(
+            child:
+            Container(
+              alignment: Alignment.center,
+              child: gText(""
+                  "录音时长 $_seconds s"),
+            ),
+            flex: 1,
           ),
           Expanded(
             child:
@@ -495,7 +504,7 @@ class _RecordState extends State<RecordPage> {
                     children: genRecordSelect(10)
                   )
               ),
-              flex: 4,
+              flex: 7,
             ),
         ],
       ),
