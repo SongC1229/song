@@ -1,0 +1,16 @@
+{
+    "font":"方正楷体",
+    "fontSize":18.0,
+    "channel":0,
+    "dark":false,
+    "backimg": [
+      "asset/images/searchback.jpg",
+      "asset/images/tang.jpg",
+      "asset/images/song.jpg",
+      "asset/images/shijing.jpg",
+      "asset/images/icon.jpg",
+      "asset/images/yoona.jpg"
+    ],
+    "motto":"但愿人长久，千里共婵娟",
+    "name":"Yoona"
+}
