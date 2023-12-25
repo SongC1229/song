@@ -2,7 +2,6 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'util_ui.dart';
 final theme={1:"Tpoem",2:"Spoem",3:"song"};
@@ -93,11 +92,7 @@ void initPoem() async{
   dbexist=FileSystemEntity.isFileSync(dbpath);
   //数据库不存在就拷贝，存在就加载
   if(!dbexist){
-    Fluttertoast.showToast(
-      msg: "拷贝数据中...\n下拉刷新",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-    );
+    printInfo("拷贝数据中\n下拉刷新");
 //    print("Creating new copy from asset");
     ByteData data = await rootBundle.load("asset/shi.db");
     List<int> bytes =
@@ -169,11 +164,7 @@ Future dbDelete(int id,int cate) async{
   String sql="delete from "+theme[cate]!+" where id=$id";
   int count=await shidb.rawDelete(sql);
   if(count!=1){
-    Fluttertoast.showToast(
-        msg: "删除失败",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-    );
+    printInfo("删除失败");
   }
 }
 

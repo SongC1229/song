@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class GConfig {
   static Color night=Colors.blueGrey;
@@ -84,4 +85,12 @@ Container gDialogTitle(BuildContext context,String title,IconData icon){
         ],
       )
   );
+}
+
+void printInfo(String str){
+    Fluttertoast.showToast(
+      msg: str,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+    );
 }

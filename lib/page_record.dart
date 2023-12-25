@@ -29,9 +29,9 @@ class _RecordState extends State<RecordPage> {
   int _seconds = 0;
   FlutterSoundRecorder? _recorder;
   String? _filePath;
-  String? _currentFile;
   String? tempFile;
-  int _currentIndex = 0;
+  int _curPlayId=0;
+  int _curRecordId=0;
 
   @override
   void initState() {
@@ -73,8 +73,8 @@ class _RecordState extends State<RecordPage> {
 
 
   ///开始播放，这里做了一个播放状态的回调
-  void startPlayer() async {
-    _currentFile = _filePath! + _currentIndex.toString() + '.aac';
+  void startPlayer(int index) async {
+    String _currentFile = _filePath! + index.toString() + '.aac';
     try {
       //判断文件是否存在
       if (await _fileExists(_currentFile!)) {
@@ -166,19 +166,23 @@ class _RecordState extends State<RecordPage> {
         statuses[Permission.storage]!.isGranted) {
       // _startRecording();
     } else {
-      // 权限被拒绝
+      printInfo("无权限");
     }
   }
 
   void _startRecording() async {
-    Fluttertoast.showToast(
-      msg: "开始录音",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.CENTER,
-    );
-    _recorder = await FlutterSoundRecorder().openRecorder();
-    await _recorder!.startRecorder(toFile: tempFile);
+    try{
 
+    printInfo("try open");
+    _recorder = await FlutterSoundRecorder().openRecorder();
+    if(_recorder==null)
+      printInfo("null _recoder");
+    printInfo("open ed");
+    await _recorder!.startRecorder(toFile: tempFile);
+    printInfo("started");
+    } catch (err) {
+      printInfo(err.toString());
+    }
     setState(() {
       _isRecording = true;
       _seconds = 0; // 重置计时器
@@ -192,10 +196,11 @@ class _RecordState extends State<RecordPage> {
     });
   }
 
-  void _startStop() async {
+  void _startStopRecord(int index) async {
     if (_isRecording) {
       _recorder?.stopRecorder();
       _recorder?.closeRecorder();
+      _timer?.cancel();
         bool? isSelect = await showDialog<bool>(
         context: context,
         builder: (context) {
@@ -244,18 +249,12 @@ class _RecordState extends State<RecordPage> {
         },
       );
       if(isSelect!=null && isSelect==true){
-        _saveRecording();
-        Fluttertoast.showToast(
-          msg: "保存至:" + _currentFile!,
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-        );
+        _saveRecording(index);
       }
       setState(() {
         _seconds = 0;
         _isRecording = false;
       });
-      _timer?.cancel();
     }
     else {
       _startRecording();
@@ -263,12 +262,12 @@ class _RecordState extends State<RecordPage> {
   }
 
 
-  void _startStopPlay() async {
+  void _startStopPlay(int index) async {
     if (_isPlaying) {
       stopPlayer();
     }
     else {
-      startPlayer();
+      startPlayer(index);
     }
   }
 
@@ -278,14 +277,15 @@ class _RecordState extends State<RecordPage> {
     super.dispose();
   }
 
-  Future<void> _saveRecording() async {
+  Future<void> _saveRecording(int index) async {
     // 获取外部存储目录路径
     // Directory? externalDir = await getExternalStorageDirectory();
     // String targetPath = '${externalDir!.path}/recording.aac';
-    _currentFile = _filePath! + _currentIndex.toString() + '.aac';
+    String _currentFile = _filePath! + index.toString() + '.aac';
     try {
       // 复制录音文件到外部存储目录
       File(tempFile!).copySync(_currentFile!);
+      printInfo("保存至:" + _currentFile!);
     } catch (e) {
       print('保存录音文件失败: $e');
       return null;
@@ -296,39 +296,34 @@ class _RecordState extends State<RecordPage> {
     for (var index = 0; index < sum; index++) {
       selectList.add(
           new Container(
-              // width: 250,
-              height: 50,
+              height: 60,
+              margin: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
+              decoration: new BoxDecoration(
+                borderRadius: new BorderRadius.all(new Radius.circular(8.0)),
+                color: Colors.grey,
+              ),
               child:
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   new Container(
-                    width: 120,
                     height: 50,
-                    margin: EdgeInsets.only(bottom: 10),
-                    child:
-                    new RadioListTile(
-                        value: index,
-                        groupValue: _currentIndex,
-                        title: Text(
-                          (index + 1).toString(),
-                          style: TextStyle(
-                              fontSize: 18.0,
-                              fontFamily: GConfig.font
-                          ),
-                        ),
-                        onChanged: (T) {
-                          setState(() {
-                            if (T != null)
-                              _currentIndex = T;
-                          });
-                        }),
+                    margin: EdgeInsets.fromLTRB(5.0, 15.0, 5.0, 10.0),
+                    child:Text("${index+1}",
+                        style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: GConfig.font
+                    ),),
                   ),
                   new Container(
-                    width: 250,
-                    height: 30,
-                    margin: EdgeInsets.only(top: 20),
+                    width: 200,
+                    height: 50,
+                    margin: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
+                    decoration: new BoxDecoration(
+                      borderRadius: new BorderRadius.all(new Radius.circular(8.0)),
+                      color: Colors.white,
+                    ),
                     child:
                     TextField(
                       onChanged: (String str) { //输入监听
@@ -336,30 +331,41 @@ class _RecordState extends State<RecordPage> {
                         updateconf();
                         setState(() {});
                       },
-                      // decoration: new InputDecoration(
-                      //   hintText: GConfig.recordTitle[index],
-                      // ),
+                      decoration: new InputDecoration(
+                        hintText: "输入录音名",
+                        border: InputBorder.none,
+                      ),
                       keyboardType: TextInputType.text,
                       //设置输入框文本类型
                       textAlign: TextAlign.left,
                       //设置内容显示位置是否居中等
                       style: TextStyle(
-                          color: Colors.black,
                           fontSize: 18.0,
-                          fontWeight: FontWeight.normal,
                           fontFamily: GConfig.font
                       ),
-                      controller:TextEditingController.fromValue(
-                                  TextEditingValue(
-                                    text: GConfig.recordTitle[index],
-                                    selection: TextSelection.fromPosition(
-                                        TextPosition(
-                                            affinity: TextAffinity.downstream,
-                                            offset: GConfig.recordTitle[index].length)))
-                        ),
                     ),
                   ),
+                  ElevatedButton(
+                    onPressed:() {
+                        _startStopRecord(index);
+                        _curRecordId = index;
+                      },
 
+                    child: Text(_isRecording&&(_curPlayId==index) ? '停止' : '录音',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: GConfig.font),),
+                  ),
+                  ElevatedButton(
+                    onPressed:(){
+                        _startStopPlay(index);
+                        _curPlayId = index;
+                      },
+                    child: Text(_isPlaying&&(_curPlayId==index) ? '停止' : '播放',
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontFamily: GConfig.font),),
+                  ),
                 ],
               )
           )
@@ -389,7 +395,7 @@ class _RecordState extends State<RecordPage> {
                   new Container(
                     height: 50,
                     margin: EdgeInsets.fromLTRB(5.0, 15.0, 5.0, 10.0),
-                    child:Text("$index",
+                    child:Text("${index+1}",
                         style: TextStyle(
                         fontSize: 20.0,
                         fontFamily: GConfig.font
@@ -467,10 +473,6 @@ class _RecordState extends State<RecordPage> {
             child:
               new Container(
                   margin: const EdgeInsets.only(left:10.0,right: 10.0,bottom: 10.0,top: 10.0),
-                  // decoration: new BoxDecoration(
-                  //   borderRadius: new BorderRadius.all(new Radius.circular(8.0)),
-                  //   color: Colors.lightBlue,
-                  // ),
                   child: ListView(
                     children: genTTSList(10)
                   )
@@ -481,82 +483,12 @@ class _RecordState extends State<RecordPage> {
             child:
               new Container(
                   margin: const EdgeInsets.only(left:10.0,right: 10.0,bottom: 10.0,top: 10.0),
-                  decoration: new BoxDecoration(
-                    borderRadius: new BorderRadius.all(new Radius.circular(8.0)),
-                    color: Colors.lightBlue,
-                  ),
                   child: ListView(
                     children: genRecordSelect(10)
                   )
               ),
               flex: 4,
             ),
-          Expanded(
-            child:new Container(
-              margin: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-              padding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, .0),
-              decoration: new BoxDecoration(
-                borderRadius: new BorderRadius.all(new Radius.circular(8.0)),
-                // color: Colors.lightBlue,
-              ),
-              child:Row(
-                      children: [
-                      Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                                  // color:Colors.white,
-                                ),
-                                child: 
-                                  ElevatedButton(
-                                    onPressed: _startStop,
-                                    child: Text(_isRecording ? '停止' : '录音',
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontFamily: GConfig.font),),
-                                  ),
-                              ),
-                              flex: 3,
-                            ),
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.only(left: 10.0),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                                  // color:Colors.white,
-                                ),
-                                child:Text('时长: $_seconds s',
-                                      style: TextStyle(
-                                          fontSize: 16.0,
-                                          fontFamily: GConfig.font
-                                      ),
-                                    ),
-                              ),
-                              flex: 3,
-                            ),
-                            Expanded(
-                              child: Container(
-                                margin: EdgeInsets.only(left: 5.0),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(1.0)),
-                                  // color:Colors.white,
-                                ),
-                                child:
-                                    ElevatedButton(
-                                      onPressed: _startStopPlay,
-                                      child: Text(_isPlaying ? '停止' : '播放',
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            fontFamily: GConfig.font),),
-                                    ),
-                              ),
-                              flex: 3,
-                            ),
-                          ],
-                    ),
-                  ),
-            flex: 1,
-          ),
         ],
       ),
     );
