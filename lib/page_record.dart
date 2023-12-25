@@ -345,29 +345,37 @@ class _RecordState extends State<RecordPage> {
                       ),
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed:() {
-                        _startStopRecord(index);
-                        _curRecordId = index;
-                      },
+                new Container(
+                  width: 60,
+                    child:
+                    ElevatedButton(
+                      onPressed:() {
+                          _startStopRecord(index);
+                          _curRecordId = index;
+                        },
 
-                    child: Text(_isRecording&&(_curPlayId==index) ? '停止' : '录音',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: GConfig.font),),
-                  ),
-                  ElevatedButton(
-                    onPressed:(){
-                        _startStopPlay(index);
-                        _curPlayId = index;
-                      },
-                    child: Text(_isPlaying&&(_curPlayId==index) ? '停止' : '播放',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontFamily: GConfig.font),),
-                  ),
-                ],
-              )
+                      child: Text(_isRecording&&(_curRecordId==index) ? '停止' : '录音',
+                        style: TextStyle(
+                            fontSize: 10,
+                            fontFamily: GConfig.font),),
+                    ),
+                ),
+                new Container(
+                  width: 60,
+                  child:
+                    ElevatedButton(
+                      onPressed:(){
+                          _startStopPlay(index);
+                          _curPlayId = index;
+                        },
+                      child: Text(_isPlaying&&(_curPlayId==index) ? '停止' : '播放',
+                        style: TextStyle(
+                            fontSize: 10,
+                            fontFamily: GConfig.font),),
+                    ),
+                ),
+                  ],
+                )
           )
       );
     }
