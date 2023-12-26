@@ -3,12 +3,12 @@ import 'util_ui.dart';
 import 'util_db.dart';
 class Update extends StatefulWidget{
 
-  const Update({@required this.refreshfather,@required this.id,@required this.cate,@required this.poemtitle,@required this.author,@required this.content});
+  const Update({@required this.refreshfather,@required this.id,@required this.table,@required this.poemtitle,@required this.author,@required this.content});
   final refreshfather;
   final poemtitle;
   final author;
   final id;
-  final cate;
+  final table;
   final content;
 
   @override
@@ -157,7 +157,7 @@ class _UpdateState extends State<Update> {
                         ),
                       ),
                       onPressed: (){
-                        dbUpdatePoem(widget.id,tit.text,aut.text,con.text,widget.cate).whenComplete((){
+                        dbUpdatePoem(widget.id,tit.text,aut.text,con.text,widget.table).whenComplete((){
                           widget.refreshfather();
                         });
                         Navigator.of(context).pop();

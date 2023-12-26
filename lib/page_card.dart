@@ -34,7 +34,8 @@ class _CardPageState extends State<CardPage>{
   @override
   void initState() {
     super.initState();
-    backimg=ExactAssetImage(GConfig.backimg[widget.ptheme]);
+    
+    backimg=ExactAssetImage(GConfig.backimg[widget.ptheme]!);
     // 初始数据
     data=widget.initdata;
     WidgetsBinding.instance.addPostFrameCallback((_) {

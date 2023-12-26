@@ -144,7 +144,7 @@ class _MyDrawerState extends State<MyDrawer> {
         onTap: () => print('current user'),
         child: new CircleAvatar(
           //圆形图标控件
-          backgroundImage: ExactAssetImage(GConfig.backimg[4]),
+          backgroundImage: ExactAssetImage(GConfig.backimg["icon"]!),
         ),
       ),
       decoration: BoxDecoration(
@@ -152,7 +152,7 @@ class _MyDrawerState extends State<MyDrawer> {
           fit: BoxFit.cover,
           // image: new NetworkImage('https://raw.githubusercontent.com/flutter/website/master/_includes/code/layout/lakes/images/lake.jpg')
           //可以试试图片调取自本地。调用本地资源，需要到pubspec.yaml中配置文件路径
-          image: ExactAssetImage(GConfig.backimg[5]),
+          image: ExactAssetImage(GConfig.backimg["yoona"]!),
         ),
       ),
       margin: EdgeInsets.only(bottom: 0.0),

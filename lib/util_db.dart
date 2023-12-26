@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'util_ui.dart';
-final theme={1:"Tpoem",2:"Spoem",3:"song"};
+
 dynamic shidb;
 
 void speech(String str) async{
@@ -110,9 +110,9 @@ void initPoem() async{
 
 
 
-Future<Map?> getData(int cate,int id) async{
+Future<Map?> getData(String table,int id) async{
   String sql;
-  id==0?sql="SELECT * FROM "+theme[cate]!+" ORDER BY RANDOM() limit 1":sql="select * from "+theme[cate]!+" where id= $id";
+  id==0?sql="SELECT * FROM "+table+" ORDER BY RANDOM() limit 1":sql="select * from "+table+" where id= $id";
   List<Map> data = await shidb.rawQuery(sql);
   String title =data[0]["title"];
   String author = data[0]["author"];//utf8.decode(list[0]["author"]);
@@ -132,28 +132,28 @@ Future<Map?> getData(int cate,int id) async{
 
 
 //搜索
-Future<List?>  dbSearch(String key,int catepoem,int b) async{
+Future<List?>  dbSearch(String key,String table,int b) async{
 
   List<Map<String, dynamic>> data;
   Map c={1:"title",2:"author",3:"content"};
-  String sql="select * from "+theme[catepoem]!+" where "+c[b]+" like '%"+key+"%' limit 500;";
+  String sql="select * from "+table+" where "+c[b]+" like '%"+key+"%' limit 500;";
 //  print(sql);
   data = await shidb.rawQuery(sql);
   return data;
 }
 
-Future dbUpdateLove(int id,int love,int cate) async{
-  String sql="update "+theme[cate]!+" set love= ? where id= ?";
+Future dbUpdateLove(int id,int love, String table) async{
+  String sql="update "+table+" set love= ? where id= ?";
   await shidb.rawUpdate(sql,[love,id]);
 }
 
-Future dbUpdatePoem(int id,String title,String author,String content,int cate) async{
-  String sql="update "+theme[cate]!+" set title= ?, author= ?,content= ? where id= ?";
+Future dbUpdatePoem(int id,String title,String author,String content, String table) async{
+  String sql="update "+table+" set title= ?, author= ?,content= ? where id= ?";
   await shidb.rawUpdate(sql,[title,author,content,id]);
 }
 
-Future dbDelete(int id,int cate) async{
-  String sql="delete from "+theme[cate]!+" where id=$id";
+Future dbDelete(int id, String table) async{
+  String sql="delete from "+table+" where id=$id";
   int count=await shidb.rawDelete(sql);
   if(count!=1){
     printInfo("删除失败");
@@ -162,8 +162,8 @@ Future dbDelete(int id,int cate) async{
 
 
 //搜索
-Future<List?>  dbDelectLove(int pomecate) async{
-  String sql="select id, title,author,content from "+theme[pomecate]!+" where love=1;";
+Future<List?>  dbDelectLove(String table) async{
+  String sql="select id, title,author,content from "+table+" where love=1;";
   var data = await shidb.rawQuery(sql);
   return data;
 }

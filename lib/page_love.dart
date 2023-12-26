@@ -13,27 +13,25 @@ class LoveListpage extends StatefulWidget {
 class _LoveListpageState extends State<LoveListpage> with SingleTickerProviderStateMixin {
 
   var data;
-  int cate=0;
+  late String table;
   @override
   void initState() {
     super.initState();
-    cate=widget.ptheme;
-    if(cate==3)
-      cate=0;
+    table=widget.ptheme;
     _searchLove();
   }
 
   void _searchLove() {
-     dbDelectLove(cate+1).then((result,) {
+     dbDelectLove(table).then((result,) {
       setState(() {
           data = result;
       });
     });
   }
 
-  void _select(int choice) {
+  void _select(String choice) {
     setState(() {
-      cate = choice;
+      table = choice;
       _searchLove();
     });
   }
@@ -43,11 +41,16 @@ class _LoveListpageState extends State<LoveListpage> with SingleTickerProviderSt
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return Remove(refreshfather: _searchLove,id: id,poemtitle: poemtitle,author: author,cate: cate,dbremove: false,);
+          return Remove(refreshfather: _searchLove,id: id,poemtitle: poemtitle,author: author,table: table,dbremove: false,);
         });
   }
   @override
   Widget build(BuildContext context) {
+    Map<String, String> poemcate ={
+        "Tpoem":"唐 诗",
+        "Spoem":"宋 词",
+        "song":"诗 经",
+      };
     return
       PopScope(
             canPop: true,
@@ -74,15 +77,14 @@ class _LoveListpageState extends State<LoveListpage> with SingleTickerProviderSt
                       centerTitle: true,
                       actions: <Widget>[
                         // overflow menu
-                        PopupMenuButton<int>(
+                        PopupMenuButton<String>(
                           child: Row(
                             children: <Widget>[
                               Icon(Icons.arrow_drop_down),
-                              Text(GConfig.poemcate[cate],
+                              Text(poemcate[table]!,
                                 style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.lightBlue,
                                     fontSize: 18.0,
-                                    fontWeight: FontWeight.normal,
                                     letterSpacing: 5.0,
                                     fontFamily: GConfig.font
                                 ),
@@ -92,14 +94,13 @@ class _LoveListpageState extends State<LoveListpage> with SingleTickerProviderSt
                           ),
                           onSelected: _select,
                           itemBuilder: (BuildContext context) {
-                            return [0,1,2].map((int choice) {
-                              return PopupMenuItem<int>(
+                            return ["Tpoem","Spoem","song"].map((String choice) {
+                              return PopupMenuItem<String>(
                                 value: choice,
-                                child: Text(GConfig.poemcate[choice],
+                                child: Text(poemcate[choice]!,
                                     style:TextStyle(
                                     color: Colors.lightBlue,
                                     fontSize: 18.0,
-                                    fontWeight: FontWeight.normal,
                                     letterSpacing: 5.0,
                                     fontFamily: GConfig.font
                                   ),
@@ -122,12 +123,8 @@ class _LoveListpageState extends State<LoveListpage> with SingleTickerProviderSt
   }
 
   List<Widget> genList() {
-    if(data==null){
+    if(data==null||data.length==0){
       return <Widget> [Container()];
-    }
-    if(data.length==0){
-      return <Widget> [Container(
-      )];
     }
     return data.map<Widget>((eachdata) {
       return _buildresult(eachdata);
@@ -141,7 +138,7 @@ class _LoveListpageState extends State<LoveListpage> with SingleTickerProviderSt
         border: Border.all(width: 1.0, color: Colors.purple),
         borderRadius: BorderRadius.all(Radius.circular(10.0)),
         image: DecorationImage(
-            image:ExactAssetImage(GConfig.backimg[0]),
+            image:ExactAssetImage(GConfig.backimg["search"]!),
             fit: BoxFit.cover
         ),
       ),

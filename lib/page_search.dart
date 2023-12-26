@@ -23,10 +23,10 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
 
 
   List<DropdownMenuItem> getpoemcate(){
-    Map<String, int> poemcate ={
-      "唐 诗":1,
-      "宋 词":2,
-      "诗 经":3
+    Map<String, String> poemcate ={
+      "唐 诗":"Tpoem",
+      "宋 词":"Spoem",
+      "诗 经":"song"
     };
     List<DropdownMenuItem> cate = [];
     for (var key in poemcate.keys){
@@ -53,7 +53,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
   }
 
   void _search() {
-    dbSearch(key,value1,value2).then((result,) {
+    dbSearch(key,table,value2).then((result,) {
       var len=0;
       if(result !=null)
         len = result.length;
@@ -65,7 +65,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
   }
 
 
-  var value1=1;
+  var table="Tpoem";
   var value2=1;
   var key="";
   var data;
@@ -133,10 +133,10 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                         child: DropdownButtonHideUnderline(
                                child: DropdownButton(
                                   items: getpoemcate(),
-                                  value: value1,//下拉菜单选择完之后显示给用户的值
+                                  value: table,//下拉菜单选择完之后显示给用户的值
                                   onChanged: (T){//下拉菜单item点击之后的回调
                                     setState(() {
-                                      value1=T;
+                                      table=T;
                                     });
                                   },
                                   style: TextStyle(//设置文本框里面文字的样式
@@ -215,7 +215,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
             border: Border.all(width: 1.0, color: Colors.purple),
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
             image: DecorationImage(
-                image:ExactAssetImage(GConfig.backimg[0]),
+                image:ExactAssetImage(GConfig.backimg["search"]!),
                 fit: BoxFit.cover
             ),
           ),
@@ -238,7 +238,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
                         onPressed: () {
                           var temp;
                           eachdata["love"]==0?temp=1:temp=0;
-                          dbUpdateLove(eachdata["id"],temp,value1).whenComplete((){
+                          dbUpdateLove(eachdata["id"],temp,table).whenComplete((){
                             _search();
                           });
                         },
@@ -283,7 +283,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return Remove(refreshfather: _search,id: id,poemtitle: poemtitle,author: author,cate: value1,dbremove: true,);
+          return Remove(refreshfather: _search,id: id,poemtitle: poemtitle,author: author,table: table,dbremove: true,);
         });
   }
 
@@ -292,7 +292,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return Update(refreshfather: _search,id: id,poemtitle: poemtitle,author: author,content: content,cate: value1);
+          return Update(refreshfather: _search,id: id,poemtitle: poemtitle,author: author,content: content,table: table);
         });
   }
 }

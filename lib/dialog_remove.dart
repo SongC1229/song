@@ -3,12 +3,12 @@ import 'util_ui.dart';
 import 'util_db.dart';
 class Remove extends StatelessWidget{
 
-  const Remove({@required this.refreshfather,@required this.id,@required this.cate,@required this.poemtitle,@required this.author,@required this.dbremove});
+  const Remove({@required this.refreshfather,@required this.id,@required this.table,@required this.poemtitle,@required this.author,@required this.dbremove});
   final refreshfather;
   final poemtitle;
   final author;
   final id;
-  final cate;
+  final table;
   final dbremove;
 
   @override
@@ -67,13 +67,13 @@ class Remove extends StatelessWidget{
                       onPressed: (){
                         if(dbremove){
                           //删除数据
-                          dbDelete(id, cate).whenComplete((){
+                          dbDelete(id, table).whenComplete((){
                             refreshfather();
                           });
                         }
                         else
                           {
-                            dbUpdateLove(id,0,cate+1).whenComplete((){
+                            dbUpdateLove(id,0,table).whenComplete((){
                               refreshfather();
                             });
                           }
