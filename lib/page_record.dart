@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:permission_handler/permission_handler.dart'; //录音权限
 import 'package:audio_session/audio_session.dart'; //录音权限
@@ -59,7 +58,7 @@ class _RecordState extends State<RecordPage> {
         flags: AndroidAudioFlags.none,
         usage: AndroidAudioUsage.voiceCommunication,
       ),
-      androidAudioFocusGainType: AndroidAudioFocusGainType.gainTransient,
+      androidAudioFocusGainType: AndroidAudioFocusGainType.gain,
       androidWillPauseWhenDucked: true,
     ));
   }
@@ -91,11 +90,7 @@ class _RecordState extends State<RecordPage> {
               // callBack(0);
             });
       } else {
-        Fluttertoast.showToast(
-          msg: "未录制",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-        );
+        printInfo("未录制");
         _isPlaying = false;
       }
       //监听播放进度
@@ -166,14 +161,10 @@ class _RecordState extends State<RecordPage> {
 
   void _startRecording() async {
     try{
-
-    printInfo("try open");
     _recorder = await FlutterSoundRecorder().openRecorder();
-    if(_recorder==null)
-      printInfo("null _recoder");
-    printInfo("open ed");
+    printInfo("temp: "+tempFile);
     await _recorder!.startRecorder(toFile: tempFile);
-    printInfo("started");
+    printInfo("started ");
     } catch (err) {
       printInfo(err.toString());
     }
@@ -285,6 +276,7 @@ class _RecordState extends State<RecordPage> {
       return null;
     }
   }
+  
   List<Widget> genRecordSelect(int sum) {
     List<Widget> selectList = [];
     for (var index = 0; index < sum; index++) {
@@ -294,7 +286,7 @@ class _RecordState extends State<RecordPage> {
               margin: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
               decoration: new BoxDecoration(
                 borderRadius: new BorderRadius.all(new Radius.circular(8.0)),
-                color: Colors.grey,
+                color: Colors.white54,
               ),
               child:
               Row(
@@ -377,7 +369,6 @@ class _RecordState extends State<RecordPage> {
     return selectList;
   }
 
-
   List<Widget> genTTSList(int sum) {
     List<Widget> _ttsList = [];
     for (var index = 0; index < sum; index++) {
@@ -387,59 +378,73 @@ class _RecordState extends State<RecordPage> {
               margin: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
               decoration: new BoxDecoration(
                 borderRadius: new BorderRadius.all(new Radius.circular(8.0)),
-                color: Colors.grey,
+                color: Colors.white54,
               ),
               child:
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  new Container(
-                    height: 50,
-                    margin: EdgeInsets.fromLTRB(5.0, 15.0, 5.0, 10.0),
-                    child:Text("${index+1}",
-                        style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: GConfig.font
-                    ),),
+                  Expanded(
+                      child:Padding(padding: EdgeInsets.only(left: 10)),
+                      flex:1,
                   ),
-                  new Container(
-                    width: 250,
-                    height: 50,
-                    margin: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
-                    decoration: new BoxDecoration(
-                      borderRadius: new BorderRadius.all(new Radius.circular(8.0)),
-                      color: Colors.white,
-                    ),
-                    child:
-                    TextField(
-                      onChanged: (String str) { //输入监听
-                        GConfig.ttsTitle[index] = str;
-                        updateconf();
-                        setState(() {});
-                      },
-                      decoration: new InputDecoration(
-                        // hintText: "恭喜发财",
-                        border: InputBorder.none,
+                  Expanded(
+                      child: 
+                      new Container(
+                        height: 50,
+                        margin: EdgeInsets.fromLTRB(5.0, 15.0, 5.0, 10.0),
+                        child:Text("${index+1}",
+                            style: TextStyle(
+                            fontSize: 20.0,
+                            fontFamily: GConfig.font
+                        ),),
                       ),
-                      keyboardType: TextInputType.text,
-                      //设置输入框文本类型
-                      textAlign: TextAlign.left,
-                      //设置内容显示位置是否居中等
-                      style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: GConfig.font
-                      ),
-                      controller:TextEditingController.fromValue(
-                                  TextEditingValue(
-                                    text: GConfig.ttsTitle[index],
-                                    selection: TextSelection.fromPosition(
-                                        TextPosition(
-                                            affinity: TextAffinity.downstream,
-                                            offset: GConfig.ttsTitle[index].length)))
-                      ),
-                    ),
+                      flex:2
                   ),
+                  Expanded(
+                      child: 
+                      new Container(
+                        width: 250,
+                        height: 50,
+                        margin: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
+                        decoration: new BoxDecoration(
+                          borderRadius: new BorderRadius.all(new Radius.circular(8.0)),
+                          color: Colors.white,
+                        ),
+                        child:
+                        TextField(
+                          onChanged: (String str) { //输入监听
+                            GConfig.ttsTitle[index] = str;
+                            updateconf();
+                            setState(() {});
+                          },
+                          decoration: new InputDecoration(
+                            // hintText: "恭喜发财",
+                            border: InputBorder.none,
+                          ),
+                          keyboardType: TextInputType.text,
+                          //设置输入框文本类型
+                          textAlign: TextAlign.left,
+                          //设置内容显示位置是否居中等
+                          style: TextStyle(
+                              fontSize: 18.0,
+                              fontFamily: GConfig.font
+                          ),
+                          controller:TextEditingController.fromValue(
+                                      TextEditingValue(
+                                        text: GConfig.ttsTitle[index],
+                                        selection: TextSelection.fromPosition(
+                                            TextPosition(
+                                                affinity: TextAffinity.downstream,
+                                                offset: GConfig.ttsTitle[index].length)))
+                          ),
+                        ),
+                      ),
+                      flex:10,
+                  ),
+                Expanded(
+                  child: 
                   new IconButton(
                     icon: Icon(Icons.record_voice_over_outlined,color: Colors.blue,),
                     onPressed: (){
@@ -447,14 +452,22 @@ class _RecordState extends State<RecordPage> {
                     },
                     tooltip: '朗读',
                   ),
-                  new IconButton(
+                  flex:2,
+                ),
+                Expanded(
+                  child: IconButton(
                     icon: Icon(Icons.voice_over_off_outlined,color: Colors.blue),
                     onPressed: (){
                       stopSpeech();
                     },
                     tooltip: '停止',
                   ),
-
+                  flex:2
+                ),
+                Expanded(
+                      child:Padding(padding: EdgeInsets.only(left: 10)),
+                      flex:1,
+                  ),
                 ],
               )
           )

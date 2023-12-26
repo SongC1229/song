@@ -21,8 +21,6 @@ class GConfig {
   static List<String> poemcate = ['唐 诗', '宋 词', '诗 经', '搜 索','录音'];
   static String motto="但愿人长久，千里共婵娟";
   static String name="Yoona";
-  static String temp1="";
-  static String temp2="";
   static bool backfromlove=false;
   static String appDir="null";
   static int channel=0;

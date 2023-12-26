@@ -8,6 +8,8 @@ class Motto extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
+    String temp1='';
+    String temp2='';
     return new Material( //创建透明层
       type: MaterialType.transparency, //透明类型
       child: new Center( //保证控件居中效果
@@ -46,7 +48,7 @@ class Motto extends StatelessWidget{
                           ),
                           TextField(
                               onChanged: (String str){//输入监听
-                                GConfig.temp1=str;
+                                temp1=str;
                               },
                               keyboardType: TextInputType.text,//设置输入框文本类型
                               textAlign: TextAlign.left,//设置内容显示位置是否居中等
@@ -72,7 +74,7 @@ class Motto extends StatelessWidget{
                           ),
                           TextField(
                               onChanged: (String str){//输入监听
-                                GConfig.temp2=str;
+                                temp2=str;
                               },
                               keyboardType: TextInputType.text,//设置输入框文本类型
                               textAlign: TextAlign.left,//设置内容显示位置是否居中等
@@ -103,8 +105,8 @@ class Motto extends StatelessWidget{
                               ),
                             ),
                             onPressed: (){
-                              GConfig.temp1==""?GConfig.temp1="":GConfig.name=GConfig.temp1;
-                              GConfig.temp2==""?GConfig.temp2="":GConfig.motto=GConfig.temp2;
+                              temp1==""?temp1="":GConfig.name=temp1;
+                              temp2==""?temp2="":GConfig.motto=temp2;
                               refreshMain();
                               Navigator.of(context).pop();
                             },),

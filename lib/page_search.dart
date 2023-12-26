@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'util_db.dart';
 import 'util_ui.dart';
 import 'dialog_remove.dart';
@@ -58,11 +57,7 @@ class _SearchPageState extends State<SearchPage> with SingleTickerProviderStateM
       var len=0;
       if(result !=null)
         len = result.length;
-      Fluttertoast.showToast(
-          msg: "查询到"+len.toString()+"条",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-      );
+      printInfo("查询到$len条");
       setState(() {
           data =result;
       });
