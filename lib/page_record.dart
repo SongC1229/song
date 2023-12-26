@@ -269,7 +269,7 @@ class _RecordState extends State<RecordPage> {
     String _currentFile = '${GConfig.appDir}/record_${index.toString()}.aac';
     try {
       // 复制录音文件到外部存储目录
-      File(tempFile!).copySync(_currentFile);
+      File(tempFile).copySync(_currentFile);
       printInfo("保存至:" + _currentFile);
     } catch (e) {
       print('保存录音文件失败: $e');
@@ -293,75 +293,98 @@ class _RecordState extends State<RecordPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  new Container(
-                    height: 50,
-                    margin: EdgeInsets.fromLTRB(5.0, 15.0, 5.0, 10.0),
-                    child:Text("${index+1}",
-                        style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: GConfig.font
-                    ),),
+                  Expanded(
+                      child:Padding(padding: EdgeInsets.only(left: 10)),
+                      flex:1,
                   ),
-                  new Container(
-                    width: 200,
-                    height: 50,
-                    margin: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
-                    decoration: new BoxDecoration(
-                      borderRadius: new BorderRadius.all(new Radius.circular(8.0)),
-                      color: Colors.white,
-                    ),
-                    child:
-                    TextField(
-                      onChanged: (String str) { //输入监听
-                        GConfig.recordTitle[index] = str;
-                        updateconf();
-                        setState(() {});
-                      },
-                      decoration: new InputDecoration(
-                        hintText: "输入录音名",
-                        border: InputBorder.none,
-                      ),
-                      keyboardType: TextInputType.text,
-                      //设置输入框文本类型
-                      textAlign: TextAlign.left,
-                      //设置内容显示位置是否居中等
-                      style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: GConfig.font
-                      ),
-                    ),
+                  Expanded(
+                      child: 
+                        new Container(
+                          height: 50,
+                          margin: EdgeInsets.fromLTRB(5.0, 15.0, 5.0, 10.0),
+                          child:Text("${index+1}",
+                              style: TextStyle(
+                              fontSize: 20.0,
+                              fontFamily: GConfig.font
+                          ),),
+                        ),
+                        flex:2
                   ),
-                new Container(
-                  width: 60,
-                    child:
-                    ElevatedButton(
-                      onPressed:() {
-                          _startStopRecord(index);
-                          _curRecordId = index;
+                  Expanded(
+                      child: 
+                    new Container(
+                      height: 50,
+                      margin: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
+                      decoration: new BoxDecoration(
+                        borderRadius: new BorderRadius.all(new Radius.circular(8.0)),
+                        color: Colors.white,
+                      ),
+                      child:
+                      TextField(
+                        onChanged: (String str) { //输入监听
+                          GConfig.recordTitle[index] = str;
+                          updateconf();
+                          setState(() {});
                         },
+                        decoration: new InputDecoration(
+                          hintText: "标签",
+                          border: InputBorder.none,
+                        ),
+                        keyboardType: TextInputType.text,
+                        //设置输入框文本类型
+                        textAlign: TextAlign.left,
+                        //设置内容显示位置是否居中等
+                        style: TextStyle(
+                            fontSize: 18.0,
+                            fontFamily: GConfig.font
+                        ),
+                      ),
+                    ),
+                    flex:10,
+                  ),
+                  Expanded(
+                        child: 
+                        new Container(
+                          width: 60,
+                            child:
+                            ElevatedButton(
+                              onPressed:() {
+                                  _startStopRecord(index);
+                                  _curRecordId = index;
+                                },
 
-                      child: Text(_isRecording&&(_curRecordId==index) ? '停止' : '录音',
-                        style: TextStyle(
-                            fontSize: 10,
-                            fontFamily: GConfig.font),),
-                    ),
-                ),
-                new Container(
-                  width: 60,
-                  child:
-                    ElevatedButton(
-                      onPressed:(){
-                          _startStopPlay(index);
-                          _curPlayId = index;
-                        },
-                      child: Text(_isPlaying&&(_curPlayId==index) ? '停止' : '播放',
-                        style: TextStyle(
-                            fontSize: 10,
-                            fontFamily: GConfig.font),),
-                    ),
-                ),
-                  ],
-                )
+                              child: Text(_isRecording&&(_curRecordId==index) ? '停止' : '录音',
+                                style: TextStyle(
+                                    fontSize: 10,
+                                    fontFamily: GConfig.font),),
+                            ),
+                        ),
+                        flex:3,
+                  ),
+                  Expanded(
+                    child: 
+                      new Container(
+                        width: 60,
+                        child:
+                          ElevatedButton(
+                            onPressed:(){
+                                _startStopPlay(index);
+                                _curPlayId = index;
+                              },
+                            child: Text(_isPlaying&&(_curPlayId==index) ? '停止' : '播放',
+                              style: TextStyle(
+                                  fontSize: 10,
+                                  fontFamily: GConfig.font),),
+                          ),
+                      ),
+                    flex:3,
+                  ),
+                  Expanded(
+                        child:Padding(padding: EdgeInsets.only(left: 10)),
+                        flex:1,
+                  ),
+                ],
+              )
           )
       );
     }
@@ -405,7 +428,6 @@ class _RecordState extends State<RecordPage> {
                   Expanded(
                       child: 
                       new Container(
-                        width: 250,
                         height: 50,
                         margin: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
                         decoration: new BoxDecoration(
@@ -452,7 +474,7 @@ class _RecordState extends State<RecordPage> {
                     },
                     tooltip: '朗读',
                   ),
-                  flex:2,
+                  flex:3,
                 ),
                 Expanded(
                   child: IconButton(
@@ -462,7 +484,7 @@ class _RecordState extends State<RecordPage> {
                     },
                     tooltip: '停止',
                   ),
-                  flex:2
+                  flex:3
                 ),
                 Expanded(
                       child:Padding(padding: EdgeInsets.only(left: 10)),

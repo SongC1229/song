@@ -39,6 +39,7 @@ class _HomeState extends State<Home>{
         );
 
       _tabbar=CupertinoTabBar(
+        height: 60,
         backgroundColor: GConfig.dark == true ?Colors.white70:Colors.white,
         items: <BottomNavigationBarItem>[
           new BottomNavigationBarItem(
