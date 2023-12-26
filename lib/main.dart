@@ -97,7 +97,6 @@ class _HomeState extends State<Home>{
   @override
   Widget build(BuildContext context) {
     initData();
-//    print("home build");
     return  MaterialApp(
       theme: GConfig.themeData,
       home: Scaffold(

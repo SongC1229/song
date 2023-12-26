@@ -5,11 +5,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'util_ui.dart';
 final theme={1:"Tpoem",2:"Spoem",3:"song"};
-bool dbexist=false;
-bool confexist=false;
 dynamic shidb;
-Map<String, dynamic> confjson ={};
-String docDir="uninit";
 
 void speech(String str) async{
   await GConfig.platform.invokeMethod("speakPoem",str);
@@ -22,33 +18,17 @@ void updateChannel(int chn) async{
   print("切换声道 $chn");
   await GConfig.platform.invokeMethod("updateChannel",chn.toString());
 }
-Future updateconf() async{
-  confjson["font"]=GConfig.font;
-  confjson["fontSize"]=GConfig.fontSize;
-  confjson["channel"]=GConfig.channel;
-  confjson["dark"]=GConfig.dark;
-  confjson["motto"]=GConfig.motto;
-  confjson["name"]=GConfig.name;
-  confjson["recordTitle"]=GConfig.recordTitle;
-  confjson["ttsTitle"]=GConfig.ttsTitle;
-  JsonEncoder encoder=new JsonEncoder();
-  String jsonString=encoder.convert(confjson);
-  if(docDir=="uninit"){
-    docDir = (await getApplicationDocumentsDirectory()).path;
-  }
-  new File(docDir+"/conf.json").writeAsString(jsonString);
-}
 
 void initconf( var refreshApp) async{
-  if(docDir=="uninit"){
-    docDir = (await getApplicationDocumentsDirectory()).path;
+  if(GConfig.appDir=="null"){
+    GConfig.appDir = (await getApplicationDocumentsDirectory()).path;
   }
-  var confpath=docDir+"/conf.json";
-  confexist=FileSystemEntity.isFileSync(confpath);
+  String confpath= GConfig.appDir+"/conf.json";
+  bool confexist=FileSystemEntity.isFileSync(confpath);
+  Map<String, dynamic> confjson ={};
   if(!confexist){
     await rootBundle.loadString('asset/config.json').then((value) async{
       await new File(confpath).writeAsString(value).whenComplete((){
-        confexist=true;
         JsonDecoder decoder = new JsonDecoder();
         confjson = decoder.convert(value);
         GConfig.font=confjson["font"];
@@ -83,22 +63,34 @@ void initconf( var refreshApp) async{
   }
 }
 
+Future updateconf() async{
+  Map<String, dynamic> confjson ={};
+  confjson["font"]=GConfig.font;
+  confjson["fontSize"]=GConfig.fontSize;
+  confjson["channel"]=GConfig.channel;
+  confjson["dark"]=GConfig.dark;
+  confjson["motto"]=GConfig.motto;
+  confjson["name"]=GConfig.name;
+  confjson["recordTitle"]=GConfig.recordTitle;
+  confjson["ttsTitle"]=GConfig.ttsTitle;
+  JsonEncoder encoder=new JsonEncoder();
+  String jsonString=encoder.convert(confjson);
+  new File(GConfig.appDir+"/conf.json").writeAsString(jsonString);
+}
 
 void initPoem() async{
-  if(docDir=="uninit"){
-    docDir = (await getApplicationDocumentsDirectory()).path;
+  if(GConfig.appDir=="null"){
+    GConfig.appDir = (await getApplicationDocumentsDirectory()).path;
   }
-  var dbpath =docDir+"/shi.db";
-  dbexist=FileSystemEntity.isFileSync(dbpath);
+  String dbpath =GConfig.appDir+"/shi.db";
+  bool dbexist=FileSystemEntity.isFileSync(dbpath);
   //数据库不存在就拷贝，存在就加载
   if(!dbexist){
     printInfo("拷贝数据中\n下拉刷新");
-//    print("Creating new copy from asset");
     ByteData data = await rootBundle.load("asset/shi.db");
     List<int> bytes =
     data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     await new File(dbpath).writeAsBytes(bytes).whenComplete(()async{
-      dbexist=true;
       try {
         shidb = await openDatabase(dbpath);
       } catch (e) {

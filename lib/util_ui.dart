@@ -24,11 +24,13 @@ class GConfig {
   static String temp1="";
   static String temp2="";
   static bool backfromlove=false;
+  static String appDir="null";
   static int channel=0;
   static const platform = const MethodChannel("sning.ttspeak");
   static List<String> recordTitle = ['','','','','','','','','',''];
   static List<String> ttsTitle = ['恭喜发财','恭喜发财','恭喜发财','恭喜发财','恭喜发财','恭喜发财','恭喜发财','恭喜发财','恭喜发财','恭喜发财'];
 }
+
 Text gText(String text, {double? sizeAdjust, Color? color, FontWeight? fontWeight}){
   FontWeight fw = fontWeight==null? FontWeight.normal: fontWeight;
   double fs = sizeAdjust==null? GConfig.fontSize: GConfig.fontSize + sizeAdjust;

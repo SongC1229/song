@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:flutter_sound/flutter_sound.dart';
 import 'package:permission_handler/permission_handler.dart'; //录音权限
 import 'package:audio_session/audio_session.dart'; //录音权限
@@ -28,24 +27,18 @@ class _RecordState extends State<RecordPage> {
   Timer? _timer;
   int _seconds = 0;
   FlutterSoundRecorder? _recorder;
-  late String _filePath;
-  String? tempFile;
+  late String tempFile;
   int _curPlayId=0;
   int _curRecordId=0;
 
   @override
   void initState() {
     super.initState();
-    initPlayer();
-    _requestPermissionsAndStartRecording();
+    _initPlayer();
   }
 
 
-  initPlayer() async {
-    Directory? appDocDir = await getApplicationDocumentsDirectory();
-    _filePath = '${appDocDir.path}/recording_';
-    tempFile = _filePath + "temp" + ".aac";
-
+  _initPlayer() async {
     await player.closePlayer();
     await player.openPlayer();
     await player
@@ -74,7 +67,7 @@ class _RecordState extends State<RecordPage> {
 
   ///开始播放，这里做了一个播放状态的回调
   void startPlayer(int index) async {
-    String _currentFile = _filePath + index.toString() + '.aac';
+    String _currentFile =  '${GConfig.appDir}/record_${index.toString()}.aac';
     try {
       //判断文件是否存在
       if (await _fileExists(_currentFile)) {
@@ -156,7 +149,7 @@ class _RecordState extends State<RecordPage> {
     return await File(path).exists();
   }
 
-  void _requestPermissionsAndStartRecording() async {
+  void _requestPermissionsAndStartRecord() async {
     Map<Permission, PermissionStatus> statuses = await [
       Permission.microphone,
       Permission.storage,
@@ -164,7 +157,8 @@ class _RecordState extends State<RecordPage> {
 
     if (statuses[Permission.microphone]!.isGranted &&
         statuses[Permission.storage]!.isGranted) {
-      // _startRecording();
+      tempFile = '${GConfig.appDir}/record_temp.aac';
+      _startRecording();
     } else {
       printInfo("无权限");
     }
@@ -257,7 +251,7 @@ class _RecordState extends State<RecordPage> {
       });
     }
     else {
-      _startRecording();
+      _requestPermissionsAndStartRecord();
     }
   }
 
@@ -281,7 +275,7 @@ class _RecordState extends State<RecordPage> {
     // 获取外部存储目录路径
     // Directory? externalDir = await getExternalStorageDirectory();
     // String targetPath = '${externalDir!.path}/recording.aac';
-    String _currentFile = _filePath + index.toString() + '.aac';
+    String _currentFile = '${GConfig.appDir}/record_${index.toString()}.aac';
     try {
       // 复制录音文件到外部存储目录
       File(tempFile!).copySync(_currentFile);
@@ -489,15 +483,6 @@ class _RecordState extends State<RecordPage> {
           ),
           Expanded(
             child:
-            Container(
-              alignment: Alignment.center,
-              child: gText(""
-                  "录音时长 $_seconds s"),
-            ),
-            flex: 1,
-          ),
-          Expanded(
-            child:
               new Container(
                   margin: const EdgeInsets.only(left:10.0,right: 10.0,bottom: 10.0,top: 10.0),
                   child: ListView(
@@ -506,6 +491,15 @@ class _RecordState extends State<RecordPage> {
               ),
               flex: 7,
             ),
+          Expanded(
+            child:
+            Container(
+              alignment: Alignment.center,
+              child: gText(""
+                  "录音时长 $_seconds s"),
+            ),
+            flex: 1,
+          ),
         ],
       ),
     );
